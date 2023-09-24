@@ -2,7 +2,7 @@
 // listening for http requests on port 3001
 
 import express from "express";
-import { addTodo, getTodos } from "./db.js";
+import { addTodo, getTodos, getTasks } from "./db.js";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -28,6 +28,20 @@ app.get("*", (req, res) => {
       }
       async function processRequest() {
         res.json(await getTodos());
+      }
+      break;
+    case "/tasks":
+      try {
+        processRequest2();
+      } catch (err) {
+        console.log("Here we are", err);
+      }
+      async function processRequest2() {
+        try {
+          res.json(await getTasks());
+        } catch (err) {
+          console.log("DB Error:", err);
+        }
       }
       break;
     default:

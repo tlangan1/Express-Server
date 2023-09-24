@@ -27,6 +27,25 @@ export function getTodos() {
   }
 }
 
+export function getTasks() {
+  try {
+    return new Promise(func);
+  } catch (err) {
+    console.log("Database error", err);
+  }
+
+  function func(resolve, reject) {
+    pool.query("select * from tasks", function (error, rows) {
+      if (error) {
+        reject(new Error(error));
+        return;
+      }
+      var x = rows.map((item) => item.todo_name);
+      resolve(x);
+    });
+  }
+}
+
 export async function addTodo(data) {
   return new Promise(fn);
 
