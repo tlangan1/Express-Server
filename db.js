@@ -46,52 +46,22 @@ export function getTasks() {
   }
 }
 
-export async function addTodo(data) {
-  return new Promise(fn);
-
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      if (err) {
-        return reject(err);
-      } else {
-        con.query(
-          //   `insert into todos (TODO_id, TODO_name) values (${data.todo_id}, '${data.todo_name}')`,
-          `Call p_add_todo('${data.todo_name}')`,
-          function (err, rows) {
-            if (err) {
-              reject(new Error(error));
-            } else {
-              con.release(); // releasing connection to pool
-              return resolve(rows);
-            }
-          }
-        );
-      }
-    }); // getConnection
+export function getObjectives() {
+  try {
+    return new Promise(func);
+  } catch (err) {
+    console.log("Database error", err);
   }
-}
 
-export async function addTask(data) {
-  return new Promise(fn);
-
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      if (err) {
-        return reject(err);
-      } else {
-        con.query(
-          `Call p_add_task(${data.task_list_id}, '${data.task_name}', '${data.task_description}')`,
-          function (err, rows) {
-            if (err) {
-              reject(new Error(err));
-            } else {
-              con.release(); // releasing connection to pool
-              return resolve(rows);
-            }
-          }
-        );
+  function func(resolve, reject) {
+    pool.query("select * from objective", function (error, rows) {
+      if (error) {
+        reject(new Error(error));
+        return;
       }
-    }); // getConnection
+      var x = rows.map((item) => item.objective_name);
+      resolve(x);
+    });
   }
 }
 

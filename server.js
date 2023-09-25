@@ -2,7 +2,7 @@
 // listening for http requests on port 3001
 
 import express from "express";
-import { addTodo, addTask, addObjective, getTodos, getTasks } from "./db.js";
+import { addObjective, getObjectives } from "./db.js";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -20,33 +20,24 @@ app.get("*", (req, res) => {
   console.log("Server Get Request:", req.url);
 
   switch (req.url) {
-    case "/todos":
+    case "/objectives":
       try {
-        processRequest();
-      } catch (err) {
-        console.log(err);
-      }
-      async function processRequest() {
-        res.json(await getTodos());
-      }
-      break;
-    case "/tasks":
-      try {
-        processRequest2();
+        processRequest3();
       } catch (err) {
         console.log("Here we are", err);
       }
-      async function processRequest2() {
+      async function processRequest3() {
         try {
-          res.json(await getTasks());
+          res.json(await getObjectives());
         } catch (err) {
           console.log("DB Error:", err);
+          res.sendStatus(404);
         }
       }
       break;
     default:
-      res.status(404).sendFile(__dirname + "/unknown.html");
-      //   res.sendFile(__dirname + "/unknown.html");
+      //   res.status(404).sendFile(__dirname + "/unknown.html");
+      res.sendStatus(404);
       break;
   }
 });
@@ -60,15 +51,19 @@ app.post("*", (req, res) => {
       async function addObjectiveAsync(data) {
         try {
           await addObjective(data);
+          res.sendStatus(200);
         } catch (err) {
           console.log("DB Error:", err);
         }
       }
       break;
     default:
-      res.sendFile(__dirname + "/unknown.html");
+      //   res.sendFile(__dirname + "/unknown.html");
+      res.sendStatus(404);
       break;
   }
 });
 
-app.listen(port, () => console.log("Example app is listening on port 3001."));
+app.listen(port, () =>
+  console.log("Express server is listening on port 3001.")
+);
