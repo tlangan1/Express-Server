@@ -59,7 +59,55 @@ export async function addTodo(data) {
           `Call p_add_todo('${data.todo_name}')`,
           function (err, rows) {
             if (err) {
-              return reject(err);
+              reject(new Error(error));
+            } else {
+              con.release(); // releasing connection to pool
+              return resolve(rows);
+            }
+          }
+        );
+      }
+    }); // getConnection
+  }
+}
+
+export async function addTask(data) {
+  return new Promise(fn);
+
+  function fn(resolve, reject) {
+    pool.getConnection(function (err, con) {
+      if (err) {
+        return reject(err);
+      } else {
+        con.query(
+          `Call p_add_task(${data.task_list_id}, '${data.task_name}', '${data.task_description}')`,
+          function (err, rows) {
+            if (err) {
+              reject(new Error(err));
+            } else {
+              con.release(); // releasing connection to pool
+              return resolve(rows);
+            }
+          }
+        );
+      }
+    }); // getConnection
+  }
+}
+
+export async function addObjective(data) {
+  return new Promise(fn);
+
+  function fn(resolve, reject) {
+    pool.getConnection(function (err, con) {
+      if (err) {
+        return reject(err);
+      } else {
+        con.query(
+          `Call p_add_objective('${data.name}', '${data.description}')`,
+          function (err, rows) {
+            if (err) {
+              reject(new Error(err));
             } else {
               con.release(); // releasing connection to pool
               return resolve(rows);
