@@ -2,21 +2,11 @@
 // listening for http requests on port 3001
 
 import express from "express";
-import {
-  addObjective,
-  deleteObjective,
-  getObjectives,
-  getGoals,
-} from "./db.js";
+import { addItem, deleteItem, getItems } from "./db.js";
 import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const port = 3001;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
+const port = 3001;
 
 app.use(express.json());
 app.use(cors({ origin: "http://127.0.0.1:3000" }));
@@ -24,74 +14,81 @@ app.use(cors({ origin: "http://127.0.0.1:3000" }));
 app.get("*", (req, res) => {
   console.log("Server Get Request:", "url is ", req.url, "body is", req.body);
 
-  switch (req.url) {
-    case "/get/objectives":
-      getObjectivesAsync();
-      async function getObjectivesAsync() {
-        try {
-          res.json(await getObjectives());
-        } catch (err) {
-          console.log("DB Error:", err);
-          res.statusMessage = err;
-          res.sendStatus(404);
-        }
-      }
-      break;
-    case "/get/goals":
-      getGoalsAsync();
-      async function getGoalsAsync() {
-        try {
-          res.json(await getGoals());
-        } catch (err) {
-          console.log("DB Error:", err);
-          res.statusMessage = err;
-          res.sendStatus(404);
-        }
-      }
+  var operation_type = RegExp("\\w+(?=/+)", "g").exec(req.url)[0];
+
+  switch (operation_type) {
+    case "get":
+      getItemsAsync();
       break;
     default:
       res.statusMessage = `Endpoint ${req.url} not supported`;
       res.sendStatus(404);
       break;
+  }
+
+  async function getItemsAsync() {
+    try {
+      var item_type = RegExp("(?<=/.+/).+", "g").exec(req.url)[0];
+
+      res.json(await getItems(item_type));
+    } catch (err) {
+      console.log("DB Error:", err);
+      res.statusMessage = err;
+      res.sendStatus(404);
+    }
   }
 });
 
 app.post("*", (req, res) => {
   console.log("Server Post Request:", "url is ", req.url, "body is", req.body);
-  switch (req.url) {
-    case "/add/objective":
-      addObjectiveAsync(req.body);
-      async function addObjectiveAsync(data) {
-        try {
-          await addObjective(data);
-          res.sendStatus(200);
-        } catch (err) {
-          console.log("DB Error:", err);
-          res.statusMessage = err;
-          res.sendStatus(404);
-        }
-      }
+  var exp = RegExp("\\w+(?=/+)", "g");
+  var operation_type = exp.exec(req.url)[0];
+
+  /* ***                                                                                 *** */
+  // In case I want to group item types in the future this would be a way to group them.
+  // In the example below we would only get a hit on add update or delete but nothing else.
+  // exp = RegExp("(?<=/add/|/update/|/delete/).+", "g");
+  /* ***                                                                                 *** */
+
+  exp = RegExp("(?<=/.+/).+", "g");
+  var item_type = exp.exec(req.url)[0];
+
+  switch (operation_type) {
+    case "add":
+      addItemAsync(req.body, item_type);
       break;
-    case "/delete/objective":
-      deleteObjectiveAsync(req.body);
-      async function deleteObjectiveAsync(data) {
-        try {
-          await deleteObjective(data);
-          res.sendStatus(200);
-        } catch (err) {
-          console.log("DB Error:", err);
-          res.statusMessage = err;
-          res.sendStatus(404);
-        }
-      }
+    case "delete":
+      deleteItemAsync(req.body);
       break;
     default:
       res.statusMessage = `Endpoint ${req.url} not supported`;
       res.sendStatus(404);
       break;
   }
+
+  async function addItemAsync(data) {
+    try {
+      await addItem(data, item_type);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log("DB Error:", err);
+      res.statusMessage = err;
+      res.sendStatus(404);
+    }
+  }
+
+  async function deleteItemAsync(data) {
+    try {
+      await deleteItem(data, item_type);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log("DB Error:", err);
+      res.statusMessage = err;
+      res.sendStatus(404);
+    }
+  }
 });
 
 app.listen(port, () =>
-  console.log("Express server is listening on port 3001.")
+  console.log(`Express server is listening on port ${port}.`)
 );

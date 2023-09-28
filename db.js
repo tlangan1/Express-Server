@@ -11,7 +11,7 @@ var pool = createPool({
   connectionLimit: 10,
 });
 
-export function getObjectives() {
+export function getItems(item_type) {
   try {
     return new Promise(func);
   } catch (err) {
@@ -19,7 +19,7 @@ export function getObjectives() {
   }
 
   function func(resolve, reject) {
-    pool.query("Call p_get_objectives", function (error, rows) {
+    pool.query(`Call p_get_${item_type}`, function (error, rows) {
       if (error) {
         reject(new Error(error));
         return;
@@ -29,25 +29,7 @@ export function getObjectives() {
   }
 }
 
-export function getGoals() {
-  try {
-    return new Promise(func);
-  } catch (err) {
-    console.log("Database error", err);
-  }
-
-  function func(resolve, reject) {
-    pool.query("Call p_get_goals", function (error, rows) {
-      if (error) {
-        reject(new Error(error));
-        return;
-      }
-      resolve(rows[0]);
-    });
-  }
-}
-
-export async function addObjective(data) {
+export async function addItem(data, item_type) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
@@ -56,7 +38,7 @@ export async function addObjective(data) {
         return reject(err);
       } else {
         con.query(
-          `Call p_add_objective('${data.name}', '${data.description}')`,
+          `Call p_add_item('${JSON.stringify(data)}', '${item_type}')`,
           function (err, rows) {
             if (err) {
               reject(new Error(err));
@@ -71,7 +53,7 @@ export async function addObjective(data) {
   }
 }
 
-export async function deleteObjective(data) {
+export async function deleteItem(data, item_type) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
@@ -80,7 +62,7 @@ export async function deleteObjective(data) {
         return reject(err);
       } else {
         con.query(
-          `Call p_delete_objective('${data.item_id}')`,
+          `Call p_delete_item('${JSON.stringify(data)}', '${item_type}')`,
           function (err, rows) {
             if (err) {
               reject(new Error(err));
@@ -94,3 +76,51 @@ export async function deleteObjective(data) {
     }); // getConnection
   }
 }
+
+// export async function addObjective(data) {
+//   return new Promise(fn);
+
+//   function fn(resolve, reject) {
+//     pool.getConnection(function (err, con) {
+//       if (err) {
+//         return reject(err);
+//       } else {
+//         con.query(
+//           `Call p_add_objective('${data.name}', '${data.description}')`,
+//           function (err, rows) {
+//             if (err) {
+//               reject(new Error(err));
+//             } else {
+//               con.release(); // releasing connection to pool
+//               return resolve(rows);
+//             }
+//           }
+//         );
+//       }
+//     }); // getConnection
+//   }
+// }
+
+// export async function deleteObjective(data) {
+//   return new Promise(fn);
+
+//   function fn(resolve, reject) {
+//     pool.getConnection(function (err, con) {
+//       if (err) {
+//         return reject(err);
+//       } else {
+//         con.query(
+//           `Call p_delete_objective('${data.item_id}')`,
+//           function (err, rows) {
+//             if (err) {
+//               reject(new Error(err));
+//             } else {
+//               con.release(); // releasing connection to pool
+//               return resolve(rows);
+//             }
+//           }
+//         );
+//       }
+//     }); // getConnection
+//   }
+// }
