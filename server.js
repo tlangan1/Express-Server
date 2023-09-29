@@ -58,7 +58,7 @@ app.post("*", (req, res) => {
       addItemAsync(req.body, item_type);
       break;
     case "delete":
-      deleteItemAsync(req.body);
+      deleteItemAsync(req.body, item_type);
       break;
     default:
       res.statusMessage = `Endpoint ${req.url} not supported`;

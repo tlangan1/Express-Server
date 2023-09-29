@@ -19,7 +19,7 @@ export function getItems(item_type) {
   }
 
   function func(resolve, reject) {
-    pool.query(`Call p_get_${item_type}`, function (error, rows) {
+    pool.query(`Call p_get_items('${item_type}')`, function (error, rows) {
       if (error) {
         reject(new Error(error));
         return;
@@ -76,51 +76,3 @@ export async function deleteItem(data, item_type) {
     }); // getConnection
   }
 }
-
-// export async function addObjective(data) {
-//   return new Promise(fn);
-
-//   function fn(resolve, reject) {
-//     pool.getConnection(function (err, con) {
-//       if (err) {
-//         return reject(err);
-//       } else {
-//         con.query(
-//           `Call p_add_objective('${data.name}', '${data.description}')`,
-//           function (err, rows) {
-//             if (err) {
-//               reject(new Error(err));
-//             } else {
-//               con.release(); // releasing connection to pool
-//               return resolve(rows);
-//             }
-//           }
-//         );
-//       }
-//     }); // getConnection
-//   }
-// }
-
-// export async function deleteObjective(data) {
-//   return new Promise(fn);
-
-//   function fn(resolve, reject) {
-//     pool.getConnection(function (err, con) {
-//       if (err) {
-//         return reject(err);
-//       } else {
-//         con.query(
-//           `Call p_delete_objective('${data.item_id}')`,
-//           function (err, rows) {
-//             if (err) {
-//               reject(new Error(err));
-//             } else {
-//               con.release(); // releasing connection to pool
-//               return resolve(rows);
-//             }
-//           }
-//         );
-//       }
-//     }); // getConnection
-//   }
-// }
