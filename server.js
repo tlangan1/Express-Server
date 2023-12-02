@@ -9,7 +9,7 @@ const app = express();
 const port = 3001;
 
 app.use(express.json());
-app.use(cors({ origin: "http://127.0.0.1:3000" }));
+app.use(cors({ origin: ["http://127.0.0.1:3000", "http://127.0.0.1:3002"] }));
 
 app.get("*", (req, res) => {
   console.log("Server Get Request:", "url is ", req.url, "body is", req.body);
@@ -18,7 +18,7 @@ app.get("*", (req, res) => {
 
   switch (operation_type) {
     case "get":
-      getItemsAsync();
+      getItemsAsync(req.body);
       break;
     default:
       res.statusMessage = `Endpoint ${req.url} not supported`;
@@ -26,11 +26,11 @@ app.get("*", (req, res) => {
       break;
   }
 
-  async function getItemsAsync() {
+  async function getItemsAsync(data) {
     try {
       var item_type = RegExp("(?<=/.+/).+", "g").exec(req.url)[0];
 
-      res.json(await getItems(item_type));
+      res.json(await getItems(item_type, data));
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;
@@ -54,11 +54,14 @@ app.post("*", (req, res) => {
   var item_type = exp.exec(req.url)[0];
 
   switch (operation_type) {
+    case "get":
+      getItemsAsync(req.body);
+      break;
     case "add":
-      addItemAsync(req.body, item_type);
+      addItemAsync(item_type, req.body);
       break;
     case "delete":
-      deleteItemAsync(req.body, item_type);
+      deleteItemAsync(item_type, req.body);
       break;
     default:
       res.statusMessage = `Endpoint ${req.url} not supported`;
@@ -66,9 +69,21 @@ app.post("*", (req, res) => {
       break;
   }
 
-  async function addItemAsync(data) {
+  async function getItemsAsync(data) {
     try {
-      await addItem(data, item_type);
+      var item_type = RegExp("(?<=/.+/).+", "g").exec(req.url)[0];
+
+      res.json(await getItems(item_type, data));
+    } catch (err) {
+      console.log("DB Error:", err);
+      res.statusMessage = err;
+      res.sendStatus(404);
+    }
+  }
+
+  async function addItemAsync(type, data) {
+    try {
+      await addItem(type, data);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
@@ -77,9 +92,9 @@ app.post("*", (req, res) => {
     }
   }
 
-  async function deleteItemAsync(data) {
+  async function deleteItemAsync(type, data) {
     try {
-      await deleteItem(data, item_type);
+      await deleteItem(type, data);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);

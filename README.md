@@ -1,5 +1,9 @@
 # Express Server to support the `Life Helper` application
 
+## Notes
+
+1. For information on CORS package for and express look [here](https://expressjs.com/en/resources/middleware/cors.html).
+
 ## Use
 
 1. To start the server execute the following command.

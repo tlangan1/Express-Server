@@ -1,5 +1,3 @@
-// db.js: This code provides a thin wrapper around a mysql server
-
 import { createPool } from "mysql";
 
 var pool = createPool({
@@ -11,7 +9,7 @@ var pool = createPool({
   connectionLimit: 10,
 });
 
-export function getItems(item_type) {
+export function getItems(item_type, data) {
   try {
     return new Promise(func);
   } catch (err) {
@@ -19,17 +17,20 @@ export function getItems(item_type) {
   }
 
   function func(resolve, reject) {
-    pool.query(`Call p_get_items('${item_type}')`, function (error, rows) {
-      if (error) {
-        reject(new Error(error));
-        return;
+    pool.query(
+      `Call p_get_items('${item_type}', '${JSON.stringify(data)}')`,
+      function (error, rows) {
+        if (error) {
+          reject(new Error(error));
+          return;
+        }
+        resolve(rows[0]);
       }
-      resolve(rows[0]);
-    });
+    );
   }
 }
 
-export async function addItem(data, item_type) {
+export async function addItem(item_type, data) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
@@ -38,7 +39,7 @@ export async function addItem(data, item_type) {
         return reject(err);
       } else {
         con.query(
-          `Call p_add_item('${JSON.stringify(data)}', '${item_type}')`,
+          `Call p_add_item('${item_type}', '${JSON.stringify(data)}')`,
           function (err, rows) {
             if (err) {
               reject(new Error(err));
@@ -53,7 +54,7 @@ export async function addItem(data, item_type) {
   }
 }
 
-export async function deleteItem(data, item_type) {
+export async function deleteItem(item_type, data) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
