@@ -8,29 +8,26 @@ import cors from "cors";
 const app = express();
 const port = 3001;
 
+const paramsDelimiter = "?params=";
+
 app.use(express.json());
 app.use(cors({ origin: ["http://127.0.0.1:3000", "http://127.0.0.1:3002"] }));
 
 app.get("*", (req, res) => {
-  console.log("Server Get Request:", "url is ", req.url, "body is", req.body);
+  console.log("Server Get Request: url is ", req.url);
 
-  var operation_type = RegExp("\\w+(?=/+)", "g").exec(req.url)[0];
+  getItemsAsync(
+    req.url.substring(1, req.url.indexOf(paramsDelimiter)),
+    decodeURI(
+      req.url.substring(
+        req.url.indexOf(paramsDelimiter) + paramsDelimiter.length
+      )
+    )
+  );
 
-  switch (operation_type) {
-    case "get":
-      getItemsAsync(req.body);
-      break;
-    default:
-      res.statusMessage = `Endpoint ${req.url} not supported`;
-      res.sendStatus(404);
-      break;
-  }
-
-  async function getItemsAsync(data) {
+  async function getItemsAsync(itemType, queryParameters) {
     try {
-      var item_type = RegExp("(?<=/.+/).+", "g").exec(req.url)[0];
-
-      res.json(await getItems(item_type, data));
+      res.json(await getItems(itemType, queryParameters));
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;

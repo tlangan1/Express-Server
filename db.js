@@ -9,7 +9,7 @@ var pool = createPool({
   connectionLimit: 10,
 });
 
-export function getItems(item_type, data) {
+export function getItems(item_type, queryString) {
   try {
     return new Promise(func);
   } catch (err) {
@@ -18,7 +18,8 @@ export function getItems(item_type, data) {
 
   function func(resolve, reject) {
     pool.query(
-      `Call p_get_items('${item_type}', '${JSON.stringify(data)}')`,
+      //   `Call p_get_items('${item_type}', '${JSON.stringify(queryString)}')`,
+      `Call p_get_items('${item_type}', ${queryString})`,
       function (error, rows) {
         if (error) {
           reject(new Error(error));
@@ -73,6 +74,27 @@ export async function deleteItem(item_type, data) {
             }
           }
         );
+      }
+    }); // getConnection
+  }
+}
+
+export async function startTask(task_id) {
+  return new Promise(fn);
+
+  function fn(resolve, reject) {
+    pool.getConnection(function (err, con) {
+      if (err) {
+        return reject(err);
+      } else {
+        con.query(`Call p_start_task(${task_id})`, function (err, rows) {
+          if (err) {
+            reject(new Error(err));
+          } else {
+            con.release(); // releasing connection to pool
+            return resolve(rows);
+          }
+        });
       }
     }); // getConnection
   }
