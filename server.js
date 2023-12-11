@@ -2,7 +2,7 @@
 // listening for http requests on port 3001
 
 import express from "express";
-import { addItem, deleteItem, getItems } from "./db.js";
+import { addItem, deleteItem, getItems, startTask } from "./db.js";
 import cors from "cors";
 
 const app = express();
@@ -18,11 +18,11 @@ app.get("*", (req, res) => {
 
   getItemsAsync(
     req.url.substring(1, req.url.indexOf(paramsDelimiter)),
-    decodeURI(
+    `'${decodeURI(
       req.url.substring(
         req.url.indexOf(paramsDelimiter) + paramsDelimiter.length
       )
-    )
+    )}'`
   );
 
   async function getItemsAsync(itemType, queryParameters) {
@@ -38,7 +38,9 @@ app.get("*", (req, res) => {
 
 app.post("*", (req, res) => {
   console.log("Server Post Request:", "url is ", req.url, "body is", req.body);
-  var exp = RegExp("\\w+(?=/+)", "g");
+  var item_type;
+
+  var exp = RegExp("\\w+(?=/*)", "g");
   var operation_type = exp.exec(req.url)[0];
 
   /* ***                                                                                 *** */
@@ -47,17 +49,20 @@ app.post("*", (req, res) => {
   // exp = RegExp("(?<=/add/|/update/|/delete/).+", "g");
   /* ***                                                                                 *** */
 
-  exp = RegExp("(?<=/.+/).+", "g");
-  var item_type = exp.exec(req.url)[0];
-
   switch (operation_type) {
-    case "get":
-      getItemsAsync(req.body);
-      break;
     case "add":
+      exp = RegExp("(?<=/.+/).+", "g");
+      item_type = exp.exec(req.url)[0];
+
       addItemAsync(item_type, req.body);
       break;
+    case "start":
+      startTaskAsync(req.body);
+      break;
     case "delete":
+      exp = RegExp("(?<=/.+/).+", "g");
+      item_type = exp.exec(req.url)[0];
+
       deleteItemAsync(item_type, req.body);
       break;
     default:
@@ -66,11 +71,10 @@ app.post("*", (req, res) => {
       break;
   }
 
-  async function getItemsAsync(data) {
+  async function addItemAsync(type, data) {
     try {
-      var item_type = RegExp("(?<=/.+/).+", "g").exec(req.url)[0];
-
-      res.json(await getItems(item_type, data));
+      await addItem(type, data);
+      res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;
@@ -78,9 +82,9 @@ app.post("*", (req, res) => {
     }
   }
 
-  async function addItemAsync(type, data) {
+  async function startTaskAsync(data) {
     try {
-      await addItem(type, data);
+      await startTask(data);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);

@@ -18,7 +18,6 @@ export function getItems(item_type, queryString) {
 
   function func(resolve, reject) {
     pool.query(
-      //   `Call p_get_items('${item_type}', '${JSON.stringify(queryString)}')`,
       `Call p_get_items('${item_type}', ${queryString})`,
       function (error, rows) {
         if (error) {
@@ -79,7 +78,7 @@ export async function deleteItem(item_type, data) {
   }
 }
 
-export async function startTask(task_id) {
+export async function startTask(data) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
@@ -87,14 +86,17 @@ export async function startTask(task_id) {
       if (err) {
         return reject(err);
       } else {
-        con.query(`Call p_start_task(${task_id})`, function (err, rows) {
-          if (err) {
-            reject(new Error(err));
-          } else {
-            con.release(); // releasing connection to pool
-            return resolve(rows);
+        con.query(
+          `Call p_start_task('${JSON.stringify(data)}')`,
+          function (err, rows) {
+            if (err) {
+              reject(new Error(err));
+            } else {
+              con.release(); // releasing connection to pool
+              return resolve(rows);
+            }
           }
-        });
+        );
       }
     }); // getConnection
   }
