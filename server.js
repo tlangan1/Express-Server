@@ -2,7 +2,13 @@
 // listening for http requests on port 3001
 
 import express from "express";
-import { addItem, deleteItem, getItems, startTask } from "./db.js";
+import {
+  addItem,
+  deleteItem,
+  getItems,
+  startTask,
+  saveSubscription,
+} from "./db.js";
 import cors from "cors";
 
 const app = express();
@@ -50,6 +56,9 @@ app.post("*", (req, res) => {
   /* ***                                                                                 *** */
 
   switch (operation_type) {
+    case "save-subscription":
+      saveSubscriptionAsync(req.body);
+      break;
     case "add":
       exp = RegExp("(?<=/.+/).+", "g");
       item_type = exp.exec(req.url)[0];
@@ -69,6 +78,17 @@ app.post("*", (req, res) => {
       res.statusMessage = `Endpoint ${req.url} not supported`;
       res.sendStatus(404);
       break;
+  }
+
+  async function saveSubscriptionAsync(data) {
+    try {
+      await saveSubscription(data);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log("DB Error:", err);
+      res.statusMessage = err;
+      res.sendStatus(404);
+    }
   }
 
   async function addItemAsync(type, data) {

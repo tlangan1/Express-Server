@@ -30,6 +30,30 @@ export function getItems(item_type, queryString) {
   }
 }
 
+export async function saveSubscription(data) {
+  return new Promise(fn);
+
+  function fn(resolve, reject) {
+    pool.getConnection(function (err, con) {
+      if (err) {
+        return reject(err);
+      } else {
+        con.query(
+          `Call p_save_subscription('${JSON.stringify(data)}')`,
+          function (err, rows) {
+            if (err) {
+              reject(new Error(err));
+            } else {
+              con.release(); // releasing connection to pool
+              return resolve(rows);
+            }
+          }
+        );
+      }
+    }); // getConnection
+  }
+}
+
 export async function addItem(item_type, data) {
   return new Promise(fn);
 
