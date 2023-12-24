@@ -15,4 +15,11 @@
    node --inspect server.js
    ```
 1. The server listens on http://127.0.0.1:3001/.
-1. The server uses a local MySQL database to store and retrieve data.
+1. The server uses a local MySQL database to store and retrieve data.h
+
+## Web Push Setup
+
+1. To enable web push capability install the `web-push` package as follows:
+   ```
+   npm i web-push
+   ```
