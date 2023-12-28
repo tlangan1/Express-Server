@@ -23,7 +23,15 @@ const options = {
   cert: fs.readFileSync("./cert/localhost.crt"),
 };
 app.use(express.json());
-app.use(cors({ origin: ["https://127.0.0.1:3000", "https://127.0.0.1:3002"] }));
+app.use(
+  cors({
+    origin: [
+      "https://127.0.0.1:3000",
+      "https://127.0.0.1:3002",
+      "https://127.0.0.1:3003",
+    ],
+  })
+);
 
 const server = https.createServer(options, app);
 
@@ -32,28 +40,28 @@ const paramsDelimiter = "?params=";
 /* *** *** */
 /* *** *** */
 /* *** *** */
-// const vapidKeys = {
-//   publicKey:
-//     "BMsl9IUkXCyrRMSegobIZBQJbf2bRSmdETWKk_pL5GnhDAo1ng-wyaLZrUdtWkmFn7Er0vzmYEhjwuYhOSAGZPM",
-//   privateKey: "OiMdXD6nFCfPS1d6n3cQ3A", // this should be 32 bytes long
-// };
-// //setting our previously generated VAPID keys
-// webpush.setVapidDetails(
-//   "https://fcm.googleapis.com/fcm/send/fBSt7BL-hWs:APA91bE8Emnb_D0fg31VmGXe-PYyUA8gBhyhcS4F1H0XpNtsTd-EOVMHwvChmr2Y3iM4vErkEpPP0sFG2Du9s-hcWacWnJRczHyDuZ9KrDA8sSwdmyISuZuIrAI3djpqrZOCPACll8hm",
-//   vapidKeys.publicKey,
-//   vapidKeys.privateKey
-// );
-// //function to send the notification to the subscribed device
-// const sendNotification = (subscription, dataToSend) => {
-//   webpush.sendNotification(subscription, dataToSend);
-// };
-// //route to test send notification
-// app.get("/send-notification", (req, res) => {
-//   const subscription = dummyDb.subscription; //get subscription from your databse here.
-//   const message = "Hello World";
-//   sendNotification(subscription, message);
-//   res.json({ message: "message sent" });
-// });
+const vapidKeys = {
+  publicKey:
+    "BExD80_HkFrtVmffpbNP-KzVCoL6Y1m7sTvP6Ai7vCGZsn-XDsjwCEbG5Hz0sE0K3_crP6-1Jqdw2a-tjHKEqHk",
+  privateKey: "SNas0P12bbdAoIzM0MVkGgSouX79t2TRmYihVSpSD4Q", // this should be 32 bytes long
+};
+//setting our previously generated VAPID keys
+webpush.setVapidDetails(
+  "https://fcm.googleapis.com/fcm/send/cco2KhtpOvY:APA91bFz2zs2V-rF458VOEA9kwCE2S8t8vHG-u-CIO2QlaURl4aI1EAVIQBnRloED10GN4bQCXcDeynMhhhAEfgObuqqPkV_qDS99aQ91gwn4Y0hoRq_NmpYOeLUhITZiwf1vIVJxtuB",
+  vapidKeys.publicKey,
+  vapidKeys.privateKey
+);
+//function to send the notification to the subscribed device
+const sendNotification = (subscription, dataToSend) => {
+  webpush.sendNotification(subscription, dataToSend);
+};
+//route to test send notification
+app.get("/send-notification", (req, res) => {
+  //   const subscription = dummyDb.subscription; //get subscription from your database here.
+  const message = "Hello World";
+  sendNotification(subscription, message);
+  res.json({ message: "message sent" });
+});
 /* *** *** */
 /* *** *** */
 /* *** *** */
@@ -61,6 +69,22 @@ const paramsDelimiter = "?params=";
 app.get("*", (req, res) => {
   console.log("Server Get Request: url is ", req.url);
 
+  if (req.url === "/send_notification") {
+    //   const subscription = dummyDb.subscription; //get subscription from your database here.
+    const subscription = {
+      endpoint:
+        "https://fcm.googleapis.com/fcm/send/cco2KhtpOvY:APA91bFz2zs2V-rF458VOEA9kwCE2S8t8vHG-u-CIO2QlaURl4aI1EAVIQBnRloED10GN4bQCXcDeynMhhhAEfgObuqqPkV_qDS99aQ91gwn4Y0hoRq_NmpYOeLUhITZiwf1vIVJxtuB",
+      keys: {
+        auth: "91u78HuSRvE009UoiBSkdA",
+        p256dh:
+          "BKoSw-6RI9bw5yX6JKvAXGiqnqgGVCQVoGhziK1Pkwc00Po9I-yC2bQuJXhBdxR_oXs2itb-s9RDm0vn5ehiJac",
+      },
+    };
+    const message = "Hello World";
+    sendNotification(subscription, req.url);
+    res.json({ message: "message sent again" });
+    return;
+  }
   getItemsAsync(
     req.url.substring(1, req.url.indexOf(paramsDelimiter)),
     `'${decodeURI(
