@@ -15,7 +15,11 @@
    node --inspect server.js
    ```
 1. The server listens on http://127.0.0.1:3001/.
-1. The server uses a local MySQL database to store and retrieve data.h
+1. The server uses a local MySQL database to store and retrieve data.
+
+## CORS
+
+1. The server uses a regular expression to accept requests from any localhost port without rejecting due to CORS.
 
 ## Enable https in Express:
 
@@ -31,7 +35,9 @@
    ```
 1. Finally, I created a self-signed SSL certificate, localhost.crt but I did not capture the actual command; however, it was something like the following but I don't think it had an expiration:
    ```
+    // cSpell:disable
    openssl x509 -signkey localhost.key -in localhost.csr -req -days 365 -out localhost.crt
+    // cSpell:enable
    ```
 1. See [this](https://www.baeldung.com/openssl-self-signed-cert) site and (this)[https://thriveread.com/nodejs-https-server-with-express-and-createserver/] site for more information.
 1. I configured the server to now listen on https://127.0.0.1:3001/.
