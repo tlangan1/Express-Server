@@ -4,26 +4,21 @@
 import express from "express";
 import https from "https";
 import fs from "fs";
-import {
-  addItem,
-  deleteItem,
-  getItems,
-  startTask,
-  saveSubscription,
-} from "./db.js";
+import { addItem, deleteItem, getItems, startTask } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 
 const app = express();
 const port = 3001;
 const options = {
-  key: fs.readFileSync("./cert/localhost.key"),
-  cert: fs.readFileSync("./cert/localhost.crt"),
+  key: fs.readFileSync("./cert/localhost-key.pem"),
+  cert: fs.readFileSync("./cert/localhost.pem"),
 };
 
 app.use(express.json());
 
-var localHostRegex = new RegExp(/^https:\/\/127\.0\.0\.1(:[0-9]+)?$/);
+// var localHostRegex = new RegExp(/^https:\/\/127\.0\.0\.1(:[0-9]+)?$/);
+var localHostRegex = new RegExp(/^https:\/\/localhost(:[0-9]+)?$/);
 app.use(
   cors({
     origin: localHostRegex,
@@ -50,19 +45,9 @@ webpush.setVapidDetails(
   vapidKeys.privateKey
 );
 //function to send the notification to the subscribed device
-const sendNotification = (subscription, dataToSend) => {
+const sendWebPush = (subscription, dataToSend) => {
   webpush.sendNotification(subscription, dataToSend);
 };
-
-//route to test send notification
-// app.get("/send-notification", (req, res) => {
-//   //   const subscription = dummyDb.subscription; //get subscription from your database here.
-//   const message = "Hello World";
-//   sendNotification(subscription, message);
-//   res.json({ message: "message sent" });
-// });
-/* *** *** */
-/* *** *** */
 /* *** *** */
 
 app.get("*", (req, res) => {
@@ -129,27 +114,24 @@ app.post("*", (req, res) => {
       res.sendStatus(404);
       break;
   }
-  sendNotificationsAsync();
+  ~sendNotificationsAsync();
 
   async function sendNotificationsAsync() {
     var subscriptions = await getSubscriptionAsync();
-    const subscription = {
-      endpoint:
-        "https://fcm.googleapis.com/fcm/send/cco2KhtpOvY:APA91bFz2zs2V-rF458VOEA9kwCE2S8t8vHG-u-CIO2QlaURl4aI1EAVIQBnRloED10GN4bQCXcDeynMhhhAEfgObuqqPkV_qDS99aQ91gwn4Y0hoRq_NmpYOeLUhITZiwf1vIVJxtuB",
-      keys: {
-        auth: "91u78HuSRvE009UoiBSkdA", // private key
-        p256dh:
-          // cSpell:disable
-          "BKoSw-6RI9bw5yX6JKvAXGiqnqgGVCQVoGhziK1Pkwc00Po9I-yC2bQuJXhBdxR_oXs2itb-s9RDm0vn5ehiJac", // public key
-        // cSpell:enable
-      },
-    };
-    sendNotification(subscription, JSON.stringify(req.body));
 
-    // If I comment this line of code out then the item is not added to the database.
-    // This is because the affectItem() function in the front end helperFunctions.js.
-    // stays awaiting a response from the notification request but it never comes.
-    // res.json({ message: "notifications sent" });
+    subscriptions.forEach((subscription) => {
+      const push_subscription = {
+        // capability_url in the database
+        endpoint: subscription.capability_url,
+        keys: {
+          p256dh: subscription.public_key,
+          auth: subscription.private_key,
+        },
+      };
+
+      //   if (push_subscription.keys.auth == "91u78HuSRvE009UoiBSkdA")
+      sendWebPush(push_subscription, JSON.stringify(req.body));
+    });
   }
 
   async function getSubscriptionAsync() {
@@ -176,7 +158,6 @@ app.post("*", (req, res) => {
   async function addItemAsync(type, data) {
     try {
       await addItem(type, data);
-      //   webpush.sendNotification(subscription, dataToSend);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
