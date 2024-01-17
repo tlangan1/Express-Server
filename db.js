@@ -63,7 +63,7 @@ export async function deleteItem(item_type, data) {
         return reject(err);
       } else {
         con.query(
-          `Call p_delete_item('${JSON.stringify(data)}', '${item_type}')`,
+          `Call p_delete_item('${item_type}', '${JSON.stringify(data)}')`,
           function (err, rows) {
             if (err) {
               reject(new Error(err));

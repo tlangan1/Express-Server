@@ -45,8 +45,12 @@ webpush.setVapidDetails(
   vapidKeys.privateKey
 );
 //function to send the notification to the subscribed device
-const sendWebPush = (subscription, dataToSend) => {
-  webpush.sendNotification(subscription, dataToSend);
+const sendWebPush = async (subscription, dataToSend) => {
+  try {
+    var x = await webpush.sendNotification(subscription, dataToSend);
+  } catch (err) {
+    console.log(err);
+  }
 };
 /* *** *** */
 
@@ -105,16 +109,14 @@ app.post("*", (req, res) => {
 
       deleteItemAsync(item_type, req.body);
       break;
-    // case "send_notification":
-    //   sendNotificationsAsync();
-    //   return;
 
     default:
       res.statusMessage = `Endpoint ${req.url} not supported`;
       res.sendStatus(404);
       break;
   }
-  ~sendNotificationsAsync();
+
+  sendNotificationsAsync();
 
   async function sendNotificationsAsync() {
     var subscriptions = await getSubscriptionAsync();
@@ -148,12 +150,6 @@ app.post("*", (req, res) => {
       res.sendStatus(404);
     }
   }
-
-  //   var subscription = {
-  //     endpoint:
-  //       "https://fcm.googleapis.com/fcm/send/cco2KhtpOvY:APA91bFz2zs2V-rF458VOEA9kwCE2S8t8vHG-u-CIO2QlaURl4aI1EAVIQBnRloED10GN4bQCXcDeynMhhhAEfgObuqqPkV_qDS99aQ91gwn4Y0hoRq_NmpYOeLUhITZiwf1vIVJxtuB",
-  //     expirationTime: null,
-  //   };
 
   async function addItemAsync(type, data) {
     try {

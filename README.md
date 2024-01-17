@@ -13,7 +13,7 @@
 1. 1. To start the server in debug mode execute the following command.
       > node --inspect server.js
 
-1. The server listens on http://127.0.0.1:3001/.
+1. The server listens on https://127.0.0.1:3001/.
 1. The server uses a local MySQL database to store and retrieve data.
 
 ## CORS
@@ -38,8 +38,9 @@
    > openssl x509 -signkey localhost.key -in localhost.csr -req -days 365 -out localhost.crt
    > // cSpell:enable
 
-1. See [this](https://www.baeldung.com/openssl-self-signed-cert) site and (this)[https://thriveread.com/nodejs-https-server-with-express-and-createserver/] site for more information.
-1. I configured the server to now listen on https://127.0.0.1:3001/.
+1. See [this](https://www.baeldung.com/openssl-self-signed-cert) site for information about creating a self signed certificate.`.
+1. See (this)[https://thriveread.com/nodejs-https-server-with-express-and-createserver/] site for information about how to place the self-signed certificate in the `Trusted Root Certification Authorities` in the Microsoft Management Console accessible using the `mmc` command.
+1. The server now listens on https://127.0.0.1:3001/.
 
 ## Web Push Setup
 
