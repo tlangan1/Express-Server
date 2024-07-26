@@ -1,3 +1,5 @@
+"use strict";
+
 import { createPool } from "mysql";
 
 var pool = createPool({

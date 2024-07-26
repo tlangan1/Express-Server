@@ -28,10 +28,16 @@
 
    > openssl genrsa -out localhost.key 2048
 
+   `Note, I believe I renamed this to localhost-key.pem in the cert folder of the Life Helper express server.`
+
 1. The second command I issued was to Certificate Signing Request file, a .csr file as shown below
+
    ```
    openssl req -new -key localhost.key -out localhost.csr
    ```
+
+   `Note, I believe I renamed this to localhost.pem in the cert folder of the Life Helper express server.`
+
 1. Finally, I created a self-signed SSL certificate, localhost.crt but I did not capture the actual command; however, it was something like the following but I don't think it had an expiration:
    // cSpell:disable
 
@@ -39,7 +45,7 @@
    > // cSpell:enable
 
 1. See [this](https://www.baeldung.com/openssl-self-signed-cert) site for information about creating a self signed certificate.`.
-1. See (this)[https://thriveread.com/nodejs-https-server-with-express-and-createserver/] site for information about how to place the self-signed certificate in the `Trusted Root Certification Authorities` in the Microsoft Management Console accessible using the `mmc` command.
+1. See [this](https://thriveread.com/nodejs-https-server-with-express-and-createserver/) site for information about how to place the self-signed certificate in the `Trusted Root Certification Authorities` in the Microsoft Management Console accessible using the `mmc` command.
 1. The server now listens on https://127.0.0.1:3001/.
 
 ## Web Push Setup

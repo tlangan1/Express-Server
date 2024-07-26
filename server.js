@@ -1,3 +1,5 @@
+"use strict";
+
 // server.js: This code provides a thin wrapper around an express server
 // listening for http requests on port 3001
 
@@ -11,8 +13,11 @@ import webpush from "web-push";
 const app = express();
 const port = 3001;
 const options = {
-  key: fs.readFileSync("./cert/localhost-key.pem"),
-  cert: fs.readFileSync("./cert/localhost.pem"),
+  // Only relevant change 7/21/2024
+  //   key: fs.readFileSync("./cert/localhost-key.pem"),
+  //   cert: fs.readFileSync("./cert/localhost.pem"),
+  key: fs.readFileSync("./cert/localhost+1-key.pem"),
+  cert: fs.readFileSync("./cert/localhost+1.pem"),
 };
 
 app.use(express.json());
@@ -21,7 +26,7 @@ app.use(express.json());
 var localHostRegex = new RegExp(/^https:\/\/localhost(:[0-9]+)?$/);
 app.use(
   cors({
-    origin: localHostRegex,
+    origin: [localHostRegex, "https://192.168.1.10:3000"],
   })
 );
 
