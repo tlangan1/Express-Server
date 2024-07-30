@@ -3,6 +3,9 @@
 ## Notes
 
 1. For information on CORS package for and express look [here](https://expressjs.com/en/resources/middleware/cors.html).
+2. When I tried to run this server on David and Natalie's local network I received the ERR_CERT_COMMON_NAME_INVALID error. I found [this](https://devrix.com/tutorial/ssl-certificate-authority-local-https/) description of using openssl to create a root certificate authority and how to create security certificates for each of the development sites.
+3. I used mkcert to do the above but it is not working on David and Natalie's network.
+4. When I go back home today, 7/29/2024, I need to see if the solution I already had in place still works. If so, that proves to me that my solution was local network specific. I want a solution that will work on any local network.
 
 ## Use
 
@@ -10,15 +13,16 @@
 
    > node server.js
 
-1. 1. To start the server in debug mode execute the following command.
+2. 1. To start the server in debug mode execute the following command.
       > node --inspect server.js
 
-1. The server listens on https://127.0.0.1:3001/.
-1. The server uses a local MySQL database to store and retrieve data.
+3. The server listens on whatever ports are available on the machine on which it is running as well as localhost.
+4. The server uses a local MySQL database to store and retrieve data.
 
 ## CORS
 
-1. The server uses a regular expression to accept requests from any localhost port without rejecting due to CORS.
+1. The server uses a regular expression to accept CORS requests from any localhost port.
+2. The server uses the results of the networkInterfaces() call to allow CORS requests from those IP addresses.
 
 ## Enable https in Express:
 

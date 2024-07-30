@@ -9,6 +9,7 @@ import fs from "fs";
 import { addItem, deleteItem, getItems, startTask } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
+import { network_addresses } from "./network_addresses.js";
 
 const app = express();
 const port = 3001;
@@ -18,15 +19,26 @@ const options = {
   //   cert: fs.readFileSync("./cert/localhost.pem"),
   key: fs.readFileSync("./cert/localhost+1-key.pem"),
   cert: fs.readFileSync("./cert/localhost+1.pem"),
+  //   key: fs.readFileSync("./cert/localhost+2-key.pem"),
+  //   cert: fs.readFileSync("./cert/localhost+2.pem"),
 };
+
+Object.keys(network_addresses).map((address) => {
+  console.log(network_addresses[address][0]);
+});
 
 app.use(express.json());
 
-// var localHostRegex = new RegExp(/^https:\/\/127\.0\.0\.1(:[0-9]+)?$/);
 var localHostRegex = new RegExp(/^https:\/\/localhost(:[0-9]+)?$/);
+var cors_origin_array = [localHostRegex];
+Object.keys(network_addresses).map((address) => {
+  cors_origin_array.push("https://" + network_addresses[address][0] + ":3000");
+});
+
 app.use(
   cors({
-    origin: [localHostRegex, "https://192.168.1.10:3000"],
+    origin: cors_origin_array,
+    // origin: [localHostRegex, "https://192.168.1.10:3000"],
   })
 );
 
@@ -54,6 +66,17 @@ const sendWebPush = async (subscription, dataToSend) => {
   try {
     var x = await webpush.sendNotification(subscription, dataToSend);
   } catch (err) {
+    if (err.statusCode == 410) {
+      /* If the express server receives a response from the push notification service */
+      /* that the push notification has expired indicated by status code 410 and */
+      /* body = 'push subscription has unsubscribed or expired.\n' */
+      /* then it should indicate such in the database by setting the expired_dtm to the current datetime. */
+      console.log("Subscription is no longer valid: ", subscription);
+      deleteItem("web_push_subscription", {
+        delete_type: "expired",
+        capability_url: subscription.endpoint,
+      });
+    }
     console.log(err);
   }
 };
