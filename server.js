@@ -17,10 +17,10 @@ const options = {
   // Only relevant change 7/21/2024
   //   key: fs.readFileSync("./cert/localhost-key.pem"),
   //   cert: fs.readFileSync("./cert/localhost.pem"),
-  key: fs.readFileSync("./cert/localhost+1-key.pem"),
-  cert: fs.readFileSync("./cert/localhost+1.pem"),
-  //   key: fs.readFileSync("./cert/localhost+2-key.pem"),
-  //   cert: fs.readFileSync("./cert/localhost+2.pem"),
+  //   key: fs.readFileSync("./cert/localhost+1-key.pem"),
+  //   cert: fs.readFileSync("./cert/localhost+1.pem"),
+  key: fs.readFileSync("./cert/localhost+2-key.pem"),
+  cert: fs.readFileSync("./cert/localhost+2.pem"),
 };
 
 Object.keys(network_addresses).map((address) => {
@@ -38,7 +38,6 @@ Object.keys(network_addresses).map((address) => {
 app.use(
   cors({
     origin: cors_origin_array,
-    // origin: [localHostRegex, "https://192.168.1.10:3000"],
   })
 );
 
@@ -73,7 +72,6 @@ const sendWebPush = async (subscription, dataToSend) => {
       /* then it should indicate such in the database by setting the expired_dtm to the current datetime. */
       console.log("Subscription is no longer valid: ", subscription);
       deleteItem("web_push_subscription", {
-        delete_type: "expired",
         capability_url: subscription.endpoint,
       });
     }
@@ -119,9 +117,6 @@ app.post("*", (req, res) => {
   /* ***                                                                                 *** */
 
   switch (operation_type) {
-    case "subscription":
-      saveSubscriptionAsync(req.body);
-      break;
     case "add":
       exp = RegExp("(?<=/.+/).+", "g");
       item_type = exp.exec(req.url)[0];
@@ -144,7 +139,12 @@ app.post("*", (req, res) => {
       break;
   }
 
-  sendNotificationsAsync();
+  switch (operation_type) {
+    case "add":
+      sendNotificationsAsync();
+    case "start":
+      sendNotificationsAsync();
+  }
 
   async function sendNotificationsAsync() {
     var subscriptions = await getSubscriptionAsync();
@@ -166,17 +166,6 @@ app.post("*", (req, res) => {
 
   async function getSubscriptionAsync() {
     return await getItems("subscriptions", `''`);
-  }
-
-  async function saveSubscriptionAsync(data) {
-    try {
-      await saveSubscription(data);
-      res.sendStatus(200);
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.sendStatus(404);
-    }
   }
 
   async function addItemAsync(type, data) {

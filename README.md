@@ -43,10 +43,11 @@
    `Note, I believe I renamed this to localhost.pem in the cert folder of the Life Helper express server.`
 
 1. Finally, I created a self-signed SSL certificate, localhost.crt but I did not capture the actual command; however, it was something like the following but I don't think it had an expiration:
-   // cSpell:disable
+   <!--- cspell:disable -->
 
    > openssl x509 -signkey localhost.key -in localhost.csr -req -days 365 -out localhost.crt
-   > // cSpell:enable
+
+   <!--- cspell:enable -->
 
 1. See [this](https://www.baeldung.com/openssl-self-signed-cert) site for information about creating a self signed certificate.`.
 1. See [this](https://thriveread.com/nodejs-https-server-with-express-and-createserver/) site for information about how to place the self-signed certificate in the `Trusted Root Certification Authorities` in the Microsoft Management Console accessible using the `mmc` command.
