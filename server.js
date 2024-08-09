@@ -13,27 +13,50 @@ import { network_addresses } from "./network_addresses.js";
 
 const app = express();
 const port = 3001;
+var cors_origin_array = [];
+
+// Note this code is just used to support the localhost domain;
+// however, there is really no good reason to do so.
+// var localHostRegex = new RegExp(/^https:\/\/localhost(:[0-9]+)?$/);
+// cors_origin_array.push(localHostRegex);
+
+// Note that cors is not an issue for "Wi-Fi" domain since the Express
+// server is listening on the same domain as the Vite web server.
+// Only enable this code if there arises a need to support multiple domains.
+Object.keys(network_addresses).map((address) => {
+  if (address == "Wi-Fi") {
+    cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
+  }
+});
+// Object.keys(network_addresses).map((address) => {
+//   cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
+// });
+
 const options = {
-  // Only relevant change 7/21/2024
-  //   key: fs.readFileSync("./cert/localhost-key.pem"),
-  //   cert: fs.readFileSync("./cert/localhost.pem"),
-  //   key: fs.readFileSync("./cert/localhost+1-key.pem"),
-  //   cert: fs.readFileSync("./cert/localhost+1.pem"),
-  key: fs.readFileSync("./cert/localhost+2-key.pem"),
-  cert: fs.readFileSync("./cert/localhost+2.pem"),
+  key: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
+  cert: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
+  // This code can be used to support multiple https domains
+  // specifically, 192.168.1.10, 192.168.144.1 and 172.22.112.1
+  // But this is just for retention of knowledge only. There is no
+  // good reason to support multiple domains.
+  // key: fs.readFileSync(`./cert/combined-key.pem`),
+  // cert: fs.readFileSync(`./cert/combined.pem`),
 };
 
 Object.keys(network_addresses).map((address) => {
-  console.log(network_addresses[address][0]);
+  var networkInterfaceDescription;
+  if (address == "Wi-Fi") {
+    networkInterfaceDescription =
+      "THIS IS THE IMPORTANT NETWORK INTERFACE, THE WI-FI NETWORK INTERFACE";
+  } else {
+    networkInterfaceDescription = "Network interface for VM on my machine";
+  }
+  console.log(
+    `${networkInterfaceDescription}: ${network_addresses[address][0]}`
+  );
 });
 
 app.use(express.json());
-
-var localHostRegex = new RegExp(/^https:\/\/localhost(:[0-9]+)?$/);
-var cors_origin_array = [localHostRegex];
-Object.keys(network_addresses).map((address) => {
-  cors_origin_array.push("https://" + network_addresses[address][0] + ":3000");
-});
 
 app.use(
   cors({
@@ -94,6 +117,12 @@ app.get("*", (req, res) => {
 
   async function getItemsAsync(itemType, queryParameters) {
     try {
+      // *** An example of setting a header manually in Express
+      // *** In this case it is to enable cors from port 3000
+      //   res.set(
+      //     "Access-Control-Allow-Origin",
+      //     `https://${network_addresses["Wi-Fi"][0]}:3000`
+      //   );
       res.json(await getItems(itemType, queryParameters));
     } catch (err) {
       console.log("DB Error:", err);
@@ -141,31 +170,9 @@ app.post("*", (req, res) => {
 
   switch (operation_type) {
     case "add":
-      sendNotificationsAsync();
+      sendWebPushesAsync(req.body);
     case "start":
-      sendNotificationsAsync();
-  }
-
-  async function sendNotificationsAsync() {
-    var subscriptions = await getSubscriptionAsync();
-
-    subscriptions.forEach((subscription) => {
-      const push_subscription = {
-        // capability_url in the database
-        endpoint: subscription.capability_url,
-        keys: {
-          p256dh: subscription.public_key,
-          auth: subscription.private_key,
-        },
-      };
-
-      //   if (push_subscription.keys.auth == "91u78HuSRvE009UoiBSkdA")
-      sendWebPush(push_subscription, JSON.stringify(req.body));
-    });
-  }
-
-  async function getSubscriptionAsync() {
-    return await getItems("subscriptions", `''`);
+      sendWebPushesAsync(req.body);
   }
 
   async function addItemAsync(type, data) {
@@ -202,6 +209,28 @@ app.post("*", (req, res) => {
   }
 });
 
-server.listen(port, () =>
-  console.log(`Express server is listening on port ${port}.`)
-);
+async function sendWebPushesAsync(message) {
+  var subscriptions = await getSubscriptionAsync();
+
+  subscriptions.forEach((subscription) => {
+    const push_subscription = {
+      // capability_url in the database
+      endpoint: subscription.capability_url,
+      keys: {
+        p256dh: subscription.public_key,
+        auth: subscription.private_key,
+      },
+    };
+
+    //   if (push_subscription.keys.auth == "91u78HuSRvE009UoiBSkdA")
+    sendWebPush(push_subscription, JSON.stringify(message));
+  });
+}
+
+async function getSubscriptionAsync() {
+  return await getItems("subscriptions", `''`);
+}
+
+server.listen(port, () => {
+  console.log(`Express server is listening on port ${port}.`);
+});
