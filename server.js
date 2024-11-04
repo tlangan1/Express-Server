@@ -10,6 +10,7 @@ import { addItem, deleteItem, getItems, startTask } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 import { network_addresses } from "./network_addresses.js";
+import os from "node:os";
 
 const app = express();
 const port = 3001;
@@ -23,18 +24,25 @@ var cors_origin_array = [];
 // Note that cors is not an issue for "Wi-Fi" domain since the Express
 // server is listening on the same domain as the Vite web server.
 // Only enable this code if there arises a need to support multiple domains.
+var addressToUse;
 Object.keys(network_addresses).map((address) => {
-  if (address == "Wi-Fi") {
-    cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
+  if (isWindows() && address == "Wi-Fi") {
+    // cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
+    addressToUse = network_addresses[address][0]
+  } else {
+    // cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
+    addressToUse = network_addresses[address][0]
   }
 });
+
+cors_origin_array.push(`https://${addressToUse}:3000`);
 // Object.keys(network_addresses).map((address) => {
 //   cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
 // });
 
 const options = {
-  key: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
-  cert: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
+  key: fs.readFileSync(`./cert/${addressToUse}-key.pem`),
+  cert: fs.readFileSync(`./cert/${addressToUse}.pem`),
   // This code can be used to support multiple https domains
   // specifically, 192.168.1.10, 192.168.144.1 and 172.22.112.1
   // But this is just for retention of knowledge only. There is no
@@ -234,3 +242,8 @@ async function getSubscriptionAsync() {
 server.listen(port, () => {
   console.log(`Express server is listening on port ${port}.`);
 });
+
+// Helper functions
+function isWindows () {  
+  return os.platform() === 'win32'
+}
