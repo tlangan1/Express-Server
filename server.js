@@ -10,39 +10,46 @@ import { addItem, deleteItem, getItems, startTask } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 import { network_addresses } from "./network_addresses.js";
+import os from "os";
 
 const app = express();
 const port = 3001;
 var cors_origin_array = [];
 
-// Note this code is just used to support the localhost domain;
-// however, there is really no good reason to do so.
-// var localHostRegex = new RegExp(/^https:\/\/localhost(:[0-9]+)?$/);
-// cors_origin_array.push(localHostRegex);
+// DO NOT USE the localhost domain for anything
+// It forces all the pieces, the web server, the express server and database
+// and the browser to be on the same machine. This is not a good practice.
 
-// Note that cors is not an issue for "Wi-Fi" domain since the Express
-// server is listening on the same domain as the Vite web server.
-// Only enable this code if there arises a need to support multiple domains.
+// If you are running the web server and the express server on the same machine
+// CORS is not an issue for the "Wi-Fi" domain/address since the Express
+// server is listening on the same domain/address as the Vite web server.
+
+// This code demonstrates how to enable CORS for multiple specific domains
+// as well as how to detect the network address of the "Wi-Fi" interface
+// on a windows machine
+
+// CORS related code
 Object.keys(network_addresses).map((address) => {
   if (address == "Wi-Fi") {
-    cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
+    cors_origin_array.push(`https://${network_addresses[address][0]}:3001`);
+    cors_origin_array.push(`https://192.168.1.79:3000`);
   }
 });
-// Object.keys(network_addresses).map((address) => {
-//   cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
-// });
 
+// HTTPS related code
 const options = {
   key: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
   cert: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
-  // This code can be used to support multiple https domains
-  // specifically, 192.168.1.10, 192.168.144.1 and 172.22.112.1
-  // But this is just for retention of knowledge only. There is no
-  // good reason to support multiple domains.
+  // This code can be used to support https for multiple https domains
+  // for example to support 192.168.1.10, 192.168.144.1 and 172.22.112.1
+  // you could do the following.
+  // This works because I built these certificates with the following command
+  // *** mkcert 192.168.1.10 192.168.144.1 172.22.112.1 ***
   // key: fs.readFileSync(`./cert/combined-key.pem`),
   // cert: fs.readFileSync(`./cert/combined.pem`),
 };
 
+// Informational code for terminal display purposes only
 Object.keys(network_addresses).map((address) => {
   var networkInterfaceDescription;
   if (address == "Wi-Fi") {
@@ -58,11 +65,31 @@ Object.keys(network_addresses).map((address) => {
 
 app.use(express.json());
 
+// CORS related code
 app.use(
+  // by calling cors() with no arguments, it allows all origins
+  //   cors()
   cors({
     origin: cors_origin_array,
   })
 );
+
+/* *** I have not used this code successfully yet *** */
+
+// Middleware to handle CORS preflight requests
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+//   if (req.method === "OPTIONS") {
+//     return res.sendStatus(200);
+//   }
+
+//   next();
+// });
+
+/* *** End of code not yet successfully used *** */
 
 const server = https.createServer(options, app);
 
@@ -101,7 +128,6 @@ const sendWebPush = async (subscription, dataToSend) => {
     console.log(err);
   }
 };
-/* *** *** */
 
 app.get("*", (req, res) => {
   console.log("Server Get Request: url is ", req.url);
@@ -119,10 +145,8 @@ app.get("*", (req, res) => {
     try {
       // *** An example of setting a header manually in Express
       // *** In this case it is to enable cors from port 3000
-      //   res.set(
-      //     "Access-Control-Allow-Origin",
-      //     `https://${network_addresses["Wi-Fi"][0]}:3000`
-      //   );
+      // res.set("Access-Control-Allow-Origin", "https://192.168.1.164:3000");
+      // res.set("Access-Control-Allow-Origin", "*");
       res.json(await getItems(itemType, queryParameters));
     } catch (err) {
       console.log("DB Error:", err);

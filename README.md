@@ -3,7 +3,7 @@
 ## Notes
 
 1. For information on CORS package for and express look [here](https://expressjs.com/en/resources/middleware/cors.html).
-2. When I tried to run this server on David and Natalie's local network I received the ERR_CERT_COMMON_NAME_INVALID error. I found [this](https://devrix.com/tutorial/ssl-certificate-authority-local-https/) description of using openssl to create a root certificate authority and how to create security certificates for each of the development sites.
+2. I found [this](https://devrix.com/tutorial/ssl-certificate-authority-local-https/) description of using openssl to create a root certificate authority and how to create security certificates for each of the development sites.
 3. I used mkcert to do the above but it is not working on David and Natalie's network.
 4. When I go back home today, 7/29/2024, I need to see if the solution I already had in place still works. If so, that proves to me that my solution was local network specific. I want a solution that will work on any local network.
 
@@ -27,31 +27,8 @@
 ## Enable https in Express:
 
 1. The motivation to do this is to be able to use push capability and that requires https to function.
-1. To enable https you need to create a self-signed SSL certificate. I used openSSL to do so.
-1. The first command I issued was to generate a private key as shown below. Also, refer to Create an SSL Certificate using openSSL.docx for the full printout.
-
-   > openssl genrsa -out localhost.key 2048
-
-   `Note, I believe I renamed this to localhost-key.pem in the cert folder of the Life Helper express server.`
-
-1. The second command I issued was to Certificate Signing Request file, a .csr file as shown below
-
-   ```
-   openssl req -new -key localhost.key -out localhost.csr
-   ```
-
-   `Note, I believe I renamed this to localhost.pem in the cert folder of the Life Helper express server.`
-
-1. Finally, I created a self-signed SSL certificate, localhost.crt but I did not capture the actual command; however, it was something like the following but I don't think it had an expiration:
-   <!--- cspell:disable -->
-
-   > openssl x509 -signkey localhost.key -in localhost.csr -req -days 365 -out localhost.crt
-
-   <!--- cspell:enable -->
-
-1. See [this](https://www.baeldung.com/openssl-self-signed-cert) site for information about creating a self signed certificate.`.
-1. See [this](https://thriveread.com/nodejs-https-server-with-express-and-createserver/) site for information about how to place the self-signed certificate in the `Trusted Root Certification Authorities` in the Microsoft Management Console accessible using the `mmc` command.
-1. The server now listens on https://127.0.0.1:3001/.
+1. To enable https you need to create a self-signed SSL certificate for the IP address on which the server is listening. I used mkcert to do this. See the "Configure for a new Network" section of the README located here, "D:\Computer Science\Original Applications\Life Helper Docs and Apps\Life Helper Docs and Schema\Documentation".
+1. The server listens on the 'WI-FI' IP address provided by the router on whatever network it is running.
 
 ## Web Push Setup
 
