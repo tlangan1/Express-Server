@@ -10,7 +10,7 @@ import { addItem, deleteItem, getItems, startTask } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 import { network_addresses } from "./network_addresses.js";
-import os from "os";
+import os from "node:os";
 
 const app = express();
 const port = 3001;
@@ -20,31 +20,23 @@ var cors_origin_array = [];
 // It forces all the pieces, the web server, the express server and database
 // and the browser to be on the same machine. This is not a good practice.
 
-// If you are running the web server and the express server on the same machine
-// CORS is not an issue for the "Wi-Fi" domain/address since the Express
-// server is listening on the same domain/address as the Vite web server.
-
-// This code demonstrates how to enable CORS for multiple specific domains
-// as well as how to detect the network address of the "Wi-Fi" interface
-// on a windows machine
-
-// CORS related code
+var addressToUse;
 Object.keys(network_addresses).map((address) => {
-  if (address == "Wi-Fi") {
-    cors_origin_array.push(`https://${network_addresses[address][0]}:3001`);
-    cors_origin_array.push(`https://192.168.1.79:3000`);
+  if (isWindows() && address == "Wi-Fi") {
+    // cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
+    addressToUse = network_addresses[address][0]
+  } else {
+    // cors_origin_array.push(`https://${network_addresses[address][0]}:3000`);
+    addressToUse = network_addresses[address][0]
   }
 });
 
+cors_origin_array.push(`https://${addressToUse}:3000`);
+
 // HTTPS related code
 const options = {
-  key: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
-  cert: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
-  // This code can be used to support https for multiple https domains
-  // for example to support 192.168.1.10, 192.168.144.1 and 172.22.112.1
-  // you could do the following.
-  // This works because I built these certificates with the following command
-  // *** mkcert 192.168.1.10 192.168.144.1 172.22.112.1 ***
+  key: fs.readFileSync(`./cert/${addressToUse}-key.pem`),
+  cert: fs.readFileSync(`./cert/${addressToUse}.pem`),
   // key: fs.readFileSync(`./cert/combined-key.pem`),
   // cert: fs.readFileSync(`./cert/combined.pem`),
 };
@@ -258,3 +250,8 @@ async function getSubscriptionAsync() {
 server.listen(port, () => {
   console.log(`Express server is listening on port ${port}.`);
 });
+
+// Helper functions
+function isWindows () {  
+  return os.platform() === 'win32'
+}
