@@ -26,8 +26,6 @@ Object.keys(network_addresses).map((address) => {
   cors_origin_array.push(`https://192.168.1.79:3000`);
 });
 
-cors_origin_array.push(`https://${addressToUse}:3000`);
-
 // HTTPS related code
 const options = {
   key: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
