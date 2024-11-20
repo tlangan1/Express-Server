@@ -10,21 +10,21 @@
 import express from "express";
 import https from "https";
 import fs from "fs";
-import { addItem, deleteItem, getItems, startTask } from "./db.js";
+import { addItem, deleteItem, getItems, getItem, startTask } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 import { network_addresses } from "./network_addresses.js";
+
+var configPath = "./config.json";
+var config = JSON.parse(fs.readFileSync(configPath, "UTF-8"));
 
 const app = express();
 const port = 3001;
 var cors_origin_array = [];
 
-// CORS related code
-Object.keys(network_addresses).map((address) => {
-  // Without DNS resolution, hardcoding of the IP address
-  // of the machine hosting the web server is required.
-  cors_origin_array.push(`https://192.168.1.79:3000`);
-});
+// Without DNS resolution, hardcoding of the IP address
+// of the machine hosting the web server is required.
+cors_origin_array.push(config.web_server_url);
 
 // HTTPS related code
 const options = {
@@ -107,16 +107,20 @@ app.get("*", (req, res) => {
 
   getItemsAsync(
     req.url.substring(1, req.url.indexOf(paramsDelimiter)),
-    `'${decodeURI(
+    decodeURI(
       req.url.substring(
         req.url.indexOf(paramsDelimiter) + paramsDelimiter.length
       )
-    )}'`
+    )
   );
 
   async function getItemsAsync(itemType, queryParameters) {
     try {
-      res.json(await getItems(itemType, queryParameters));
+      queryParameters =
+        queryParameters == "" ? "''" : JSON.parse(queryParameters);
+      if (queryParameters.item_id)
+        res.json(await getItem(itemType, queryParameters));
+      else res.json(await getItems(itemType, queryParameters));
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;

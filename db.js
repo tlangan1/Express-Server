@@ -32,6 +32,27 @@ export function getItems(item_type, queryString) {
   }
 }
 
+export function getItem(item_type, queryString) {
+  try {
+    return new Promise(func);
+  } catch (err) {
+    console.log("Database error", err);
+  }
+
+  function func(resolve, reject) {
+    pool.query(
+      `Call p_get_item('${item_type}', '${JSON.stringify(queryString)}')`,
+      function (error, rows) {
+        if (error) {
+          reject(new Error(error));
+          return;
+        }
+        resolve(rows[0]);
+      }
+    );
+  }
+}
+
 export async function addItem(item_type, data) {
   return new Promise(fn);
 
