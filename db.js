@@ -20,7 +20,7 @@ export function getItems(item_type, queryString) {
 
   function func(resolve, reject) {
     pool.query(
-      `Call p_get_items('${item_type}', ${queryString})`,
+      `Call p_get_items('${item_type}', '${JSON.stringify(queryString)}')`,
       function (error, rows) {
         if (error) {
           reject(new Error(error));
