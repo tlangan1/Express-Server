@@ -5,18 +5,19 @@
 /* *** *** */
 // DO NOT USE the localhost domain for anything
 // It forces all the pieces, the web server, the express server and database
-// and the browser to be on the same machine. This is not a good practice.
+// and the browser to be on the same machine. It also prevents the use of a phone.
+// This is not a good practice.
 
 import express from "express";
 import https from "https";
-import fs from "fs";
+import fsSync from "fs";
 import { addItem, deleteItem, getItems, getItem, startTask } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 import { network_addresses } from "./network_addresses.js";
 
 var configPath = "./config.json";
-var config = JSON.parse(fs.readFileSync(configPath, "UTF-8"));
+var config = JSON.parse(fsSync.readFileSync(configPath, { encoding: "utf8" }));
 
 const app = express();
 const port = 3001;
@@ -28,8 +29,8 @@ cors_origin_array.push(config.web_server_url);
 
 // HTTPS related code
 const options = {
-  key: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
-  cert: fs.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
+  key: fsSync.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
+  cert: fsSync.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
   // Supporting multiple https domains is possible in a single certificate.
   // For example, to support 192.168.1.10, 192.168.144.1 and 172.22.112.1
   // you could do the following.

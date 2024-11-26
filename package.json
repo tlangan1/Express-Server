@@ -7,6 +7,9 @@
     "web-push": "^3.6.6"
   },
   "scripts": {
-    "start": "node --inspect server.js"
+    "start": "nodemon --inspect server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }

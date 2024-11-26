@@ -1,0 +1,5 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Call p_add_item('objective', '{"parent_id":0,"name":"fddddd","description":"fffffff\n"}')
+ER_INVALID_JSON_TEXT_IN_PARAM: Invalid JSON text in argument 1 to function json_extract: "Invalid encoding in string." at position 53.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

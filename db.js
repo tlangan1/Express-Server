@@ -1,6 +1,14 @@
 "use strict";
 
 import { createPool } from "mysql";
+import fsSync from "fs";
+import fsAsync from "fs/promises";
+
+var DBErrorsPath = "DBErrors.txt";
+if (!fsSync.existsSync(DBErrorsPath)) {
+  await fsAsync.appendFile(DBErrorsPath, "DB Errors are logged here.\n");
+  await fsAsync.appendFile(DBErrorsPath, "**************************\n\n");
+}
 
 var pool = createPool({
   host: "localhost",
@@ -23,7 +31,7 @@ export function getItems(item_type, queryString) {
       `Call p_get_items('${item_type}', '${JSON.stringify(queryString)}')`,
       function (error, rows) {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error.message));
           return;
         }
         resolve(rows[0]);
@@ -44,7 +52,7 @@ export function getItem(item_type, queryString) {
       `Call p_get_item('${item_type}', '${JSON.stringify(queryString)}')`,
       function (error, rows) {
         if (error) {
-          reject(new Error(error));
+          reject(new Error(error.message));
           return;
         }
         resolve(rows[0]);
@@ -61,17 +69,18 @@ export async function addItem(item_type, data) {
       if (err) {
         return reject(err);
       } else {
-        con.query(
-          `Call p_add_item('${item_type}', '${JSON.stringify(data)}')`,
-          function (err, rows) {
-            if (err) {
-              reject(new Error(err));
-            } else {
-              con.release(); // releasing connection to pool
-              return resolve(rows);
-            }
+        var dbCall = `Call p_add_item('${item_type}', '${JSON.stringify(
+          data
+        )}')`;
+        con.query(dbCall, function (error, rows) {
+          if (error) {
+            appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+            reject(new Error(error.message));
+          } else {
+            con.release(); // releasing connection to pool
+            return resolve(rows);
           }
-        );
+        });
       }
     }); // getConnection
   }
@@ -87,9 +96,9 @@ export async function deleteItem(item_type, data) {
       } else {
         con.query(
           `Call p_delete_item('${item_type}', '${JSON.stringify(data)}')`,
-          function (err, rows) {
-            if (err) {
-              reject(new Error(err));
+          function (error, rows) {
+            if (error) {
+              reject(new Error(error.message));
             } else {
               con.release(); // releasing connection to pool
               return resolve(rows);
@@ -111,9 +120,9 @@ export async function startTask(data) {
       } else {
         con.query(
           `Call p_start_task('${JSON.stringify(data)}')`,
-          function (err, rows) {
-            if (err) {
-              reject(new Error(err));
+          function (error, rows) {
+            if (error) {
+              reject(new Error(error.message));
             } else {
               con.release(); // releasing connection to pool
               return resolve(rows);
@@ -122,5 +131,20 @@ export async function startTask(data) {
         );
       }
     }); // getConnection
+  }
+}
+
+/* *** Helper Functions *** */
+export async function appendToFile(fileName, content) {
+  var DBErrorsSeparator =
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+
+  try {
+    await fsAsync.appendFile(`./${fileName}`, DBErrorsSeparator);
+    await fsAsync.appendFile(`./${fileName}`, content);
+    await fsAsync.appendFile(`./${fileName}`, DBErrorsSeparator);
+    await fsAsync.appendFile(`./${fileName}`, "\n");
+  } catch (err) {
+    console.log(err);
   }
 }
