@@ -1,5 +1,96 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Call p_add_item('objective', '{"parent_id":0,"name":"fddddd","description":"fffffff\n"}')
-ER_INVALID_JSON_TEXT_IN_PARAM: Invalid JSON text in argument 1 to function json_extract: "Invalid encoding in string." at position 53.
+12/10/2024, 3:03:02 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"David","description":"Langan"}')
+ER_WRONG_VALUE_FOR_VAR: Variable 'MESSAGE_TEXT' can't be set to the value of 'NULL'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:06:37 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"sdfsdfs","description":""}')
+ER_WRONG_VALUE_FOR_VAR: Variable 'MESSAGE_TEXT' can't be set to the value of 'NULL'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:18:18 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"ASDsa","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:21:58 PM
+Call p_add_item('goal', '{"parent_id":0,"name":"asdfad","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:23:42 PM
+Call p_add_item('goal', '{"parent_id":0,"name":"ASDasd","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:24:44 PM
+Call p_add_item('goal', '{"parent_id":0,"name":"asdfasfd","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:25:18 PM
+Call p_add_item('goal', '{"parent_id":0,"name":"asdfadf","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:25:51 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"afd","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:26:06 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"asdf","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:31:41 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"ASD","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:33:30 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"asdf","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:40:08 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"ASDs","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:41:46 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"sad","description":""}')
+ER_SIGNAL_EXCEPTION: Is this having any effect
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:49:56 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"SD","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:53:31 PM
+Call p_add_item('objective', '{"parent_id":0,"name":"adsfsa","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'objective_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/11/2024, 10:29:58 AM
+Call p_add_item('task', '{"parent_id":1,"name":"T1 for G1 for O1","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_id' in 'field list'"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

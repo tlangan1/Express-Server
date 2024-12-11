@@ -74,8 +74,11 @@ export async function addItem(item_type, data) {
         )}')`;
         con.query(dbCall, function (error, rows) {
           if (error) {
+            var now = new Date().toLocaleString();
             appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
-            reject(new Error(error.message));
+            reject(
+              `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+            );
           } else {
             con.release(); // releasing connection to pool
             return resolve(rows);
@@ -138,9 +141,11 @@ export async function startTask(data) {
 export async function appendToFile(fileName, content) {
   var DBErrorsSeparator =
     "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+  var now = new Date().toLocaleString();
 
   try {
     await fsAsync.appendFile(`./${fileName}`, DBErrorsSeparator);
+    await fsAsync.appendFile(`./${fileName}`, `${now}\n`);
     await fsAsync.appendFile(`./${fileName}`, content);
     await fsAsync.appendFile(`./${fileName}`, DBErrorsSeparator);
     await fsAsync.appendFile(`./${fileName}`, "\n");
