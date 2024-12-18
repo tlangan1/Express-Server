@@ -27,11 +27,13 @@ export function getItems(item_type, queryString) {
   }
 
   function func(resolve, reject) {
+    var dbCall = "Call p_get_items(?, ?)";
     pool.query(
-      `Call p_get_items('${item_type}', '${JSON.stringify(queryString)}')`,
+      dbCall,
+      [item_type, JSON.stringify(queryString)],
       function (error, rows) {
         if (error) {
-          reject(new Error(error.message));
+          reject(error.message);
           return;
         }
         resolve(rows[0]);
@@ -40,26 +42,28 @@ export function getItems(item_type, queryString) {
   }
 }
 
-export function getItem(item_type, queryString) {
-  try {
-    return new Promise(func);
-  } catch (err) {
-    console.log("Database error", err);
-  }
+// export function getItem(item_type, queryString) {
+//   try {
+//     return new Promise(func);
+//   } catch (err) {
+//     console.log("Database error", err);
+//   }
 
-  function func(resolve, reject) {
-    pool.query(
-      `Call p_get_item('${item_type}', '${JSON.stringify(queryString)}')`,
-      function (error, rows) {
-        if (error) {
-          reject(new Error(error.message));
-          return;
-        }
-        resolve(rows[0]);
-      }
-    );
-  }
-}
+//   function func(resolve, reject) {
+//     var dbCall = "Call p_get_item(?, ?)";
+//     pool.query(
+//       dbCall,
+//       [item_type, JSON.stringify(queryString)],
+//       function (error, rows) {
+//         if (error) {
+//           reject(error.message);
+//           return;
+//         }
+//         resolve(rows[0]);
+//       }
+//     );
+//   }
+// }
 
 export async function addItem(item_type, data) {
   return new Promise(fn);
@@ -69,18 +73,23 @@ export async function addItem(item_type, data) {
       if (err) {
         return reject(err);
       } else {
-        var dbCall = `Call p_add_item('${item_type}', '${JSON.stringify(
-          data
-        )}')`;
-        con.query(dbCall, function (error, rows) {
-          if (error) {
-            appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
-            reject(new Error(error.message));
-          } else {
-            con.release(); // releasing connection to pool
-            return resolve(rows);
+        var dbCall = "Call p_add_item(?, ?)";
+        con.query(
+          dbCall,
+          [item_type, JSON.stringify(data)],
+          function (error, rows) {
+            if (error) {
+              var now = new Date().toLocaleString();
+              appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+              reject(
+                `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+              );
+            } else {
+              con.release(); // releasing connection to pool
+              return resolve(rows);
+            }
           }
-        });
+        );
       }
     }); // getConnection
   }
@@ -91,14 +100,16 @@ export async function deleteItem(item_type, data) {
 
   function fn(resolve, reject) {
     pool.getConnection(function (err, con) {
+      var dbCall = "Call p_delete_item(?, ?)";
       if (err) {
         return reject(err);
       } else {
         con.query(
-          `Call p_delete_item('${item_type}', '${JSON.stringify(data)}')`,
+          dbCall,
+          [item_type, JSON.stringify(data)],
           function (error, rows) {
             if (error) {
-              reject(new Error(error.message));
+              reject(error.message);
             } else {
               con.release(); // releasing connection to pool
               return resolve(rows);
@@ -115,32 +126,62 @@ export async function startTask(data) {
 
   function fn(resolve, reject) {
     pool.getConnection(function (err, con) {
+      var dbCall = "Call p_start_task(?)";
       if (err) {
         return reject(err);
       } else {
-        con.query(
-          `Call p_start_task('${JSON.stringify(data)}')`,
-          function (error, rows) {
-            if (error) {
-              reject(new Error(error.message));
-            } else {
-              con.release(); // releasing connection to pool
-              return resolve(rows);
-            }
+        con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
+          if (error) {
+            reject(error.message);
+          } else {
+            con.release(); // releasing connection to pool
+            return resolve(rows);
           }
-        );
+        });
+      }
+    }); // getConnection
+  }
+}
+
+export async function completeTask(data) {
+  return new Promise(fn);
+
+  function fn(resolve, reject) {
+    pool.getConnection(function (err, con) {
+      var dbCall = "Call p_complete_task(?)";
+      if (err) {
+        return reject(err);
+      } else {
+        con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
+          if (error) {
+            var now = new Date().toLocaleString();
+            appendToFile(
+              DBErrorsPath,
+              dbCall + "\n" + error.message + "\n" + JSON.stringify(data) + "\n"
+            );
+            reject(
+              `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+            );
+          } else {
+            con.release(); // releasing connection to pool
+            return resolve(rows);
+          }
+        });
       }
     }); // getConnection
   }
 }
 
 /* *** Helper Functions *** */
+
 export async function appendToFile(fileName, content) {
   var DBErrorsSeparator =
     "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+  var now = new Date().toLocaleString();
 
   try {
     await fsAsync.appendFile(`./${fileName}`, DBErrorsSeparator);
+    await fsAsync.appendFile(`./${fileName}`, `${now}\n`);
     await fsAsync.appendFile(`./${fileName}`, content);
     await fsAsync.appendFile(`./${fileName}`, DBErrorsSeparator);
     await fsAsync.appendFile(`./${fileName}`, "\n");

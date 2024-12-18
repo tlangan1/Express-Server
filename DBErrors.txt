@@ -1,5 +1,243 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Call p_add_item('objective', '{"parent_id":0,"name":"fddddd","description":"fffffff\n"}')
-ER_INVALID_JSON_TEXT_IN_PARAM: Invalid JSON text in argument 1 to function json_extract: "Invalid encoding in string." at position 53.
+12/10/2024, 3:03:02 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"David","description":"Langan"}')
+ER_WRONG_VALUE_FOR_VAR: Variable 'MESSAGE_TEXT' can't be set to the value of 'NULL'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:06:37 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"sdfsdfs","description":""}')
+ER_WRONG_VALUE_FOR_VAR: Variable 'MESSAGE_TEXT' can't be set to the value of 'NULL'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:18:18 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"ASDsa","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:21:58 PM
+Call p_add_item('goal', '{"parent_id":0,"name":"asdfad","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:23:42 PM
+Call p_add_item('goal', '{"parent_id":0,"name":"ASDasd","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:24:44 PM
+Call p_add_item('goal', '{"parent_id":0,"name":"asdfasfd","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:25:18 PM
+Call p_add_item('goal', '{"parent_id":0,"name":"asdfadf","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:25:51 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"afd","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:26:06 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"asdf","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:31:41 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"ASD","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:33:30 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"asdf","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:40:08 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"ASDs","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:41:46 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"sad","description":""}')
+ER_SIGNAL_EXCEPTION: Is this having any effect
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:49:56 PM
+Call p_add_item('goal', '{"parent_id":1,"name":"SD","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/10/2024, 3:53:31 PM
+Call p_add_item('objective', '{"parent_id":0,"name":"adsfsa","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'objective_names' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/11/2024, 10:29:58 AM
+Call p_add_item('task', '{"parent_id":1,"name":"T1 for G1 for O1","description":""}')
+ER_SIGNAL_EXCEPTION: "Unknown column 'goal_id' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 9:10:00 AM
+Call p_add_item('task', '{"parent_id":2,"name":"Created a React app using create-react-app","description":"I created a React add using \"npx create-react-app test\" to test the behavior of the most basic of starting points. There were three problems with the install...that was disturbing.\n\nI still needed import React from \"react\"; and test and expect are not recognized in App.test.js."}')
+ER_SIGNAL_EXCEPTION: "Invalid JSON text in argument 1 to function json_extract: \"Missing a comma or '}' after an object member.\" at position 111."
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 12:31:02 PM
+Call p_add_item('objective', '{"parent_id":0,"name":"Test Objective 2","description":"A string with a single ' quote and a double \" quote"}')
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'quote and a double \" quote"}')' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 12:31:42 PM
+Call p_add_item('goal', '{"parent_id":2,"name":"Test goal 2","description":"A single ' quote and a double \" quote"}')
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'quote and a double \" quote"}')' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 12:32:02 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Test task 2","description":"A single ' quote"}')
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'quote"}')' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 12:36:47 PM
+Call p_add_item('task', '{"parent_id":3,"name":"asda","description":"a double \" quote"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 55 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 12:44:45 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Tom","description":"a double \" quote"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 54 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 12:50:13 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Tom 4","description":"D \" Q"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 49 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 12:56:59 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Tom 5","description":"D \" Q"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 49 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:08:02 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Tom 0","description":"f \" f"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 49 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:09:55 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Tom 0","description":"d \" d"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 49 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:12:48 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Tom o","description":"f \" f"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 49 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:18:21 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Tom 0","description":"d \" d"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 49 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:23:45 PM
+Call p_add_item('task', '{"parent_id":3,"name":"Tom 0","description":"f \" g"}')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Missing a comma or '}' after an object member." at position 49 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:39:41 PM
+Call p_add_item('task', '{"parent_id":3,"name":"t23","description":"'d' and \\"f\""}')
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'd' and \\"f\""}')' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:41:03 PM
+Call p_add_item('task', '{"parent_id":3,"name":"t23","description":"'d'"}')
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'd'"}')' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:50:26 PM
+Call p_add_item(\'task', '{"parent_id":3,"name":"x1","description":"d \\" g 'tom'"}')
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '\'task', '{"parent_id":3,"name":"x1","description":"d \\" g 'tom'"}')' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 1:55:37 PM
+Call p_add_item('task', '{"parent_id":3,"name":"x2","description":"'d'"}')
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'd'"}')' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 2:22:31 PM
+Call p_add_item('task', '[object Object]')
+ER_INVALID_JSON_TEXT: Invalid JSON text: "Invalid value." at position 1 in value for column '.data'.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 2:36:15 PM
+Call p_add_item('task', '{"parent_id":3,"name":"x2","description":"\"s\" 'f'"}')
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'f'"}')' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/13/2024, 3:47:30 PM
+Call p_add_item(?, ?)
+ER_SP_WRONG_NO_OF_ARGS: Incorrect number of arguments for PROCEDURE life_helper.p_add_item; expected 2, got 4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/17/2024, 12:59:45 PM
+Call p_complete_task(?)
+ER_BAD_FIELD_ERROR: Unknown column 't.completed_dtm' in 'on clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/17/2024, 1:01:42 PM
+Call p_complete_task(?)
+ER_BAD_FIELD_ERROR: Unknown column 't.completed_dtm' in 'on clause'
+{"task_id":50}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/17/2024, 1:05:26 PM
+Call p_complete_task(?)
+ER_BAD_FIELD_ERROR: Unknown column 't.completed_dtm' in 'where clause'
+{"task_id":50}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/17/2024, 1:14:41 PM
+Call p_complete_task(?)
+ER_BAD_FIELD_ERROR: Unknown column 't.completed_dtm' in 'where clause'
+{"task_id":50}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
