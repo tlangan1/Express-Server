@@ -1,0 +1,8 @@
+{
+  "overrides": [
+    {
+      "filename": "*.txt",
+      "enabled": false
+    }
+  ]
+}

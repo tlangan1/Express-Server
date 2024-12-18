@@ -11,7 +11,13 @@
 import express from "express";
 import https from "https";
 import fsSync from "fs";
-import { addItem, deleteItem, getItems, getItem, startTask } from "./db.js";
+import {
+  addItem,
+  deleteItem,
+  getItems,
+  startTask,
+  completeTask,
+} from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 import { network_addresses } from "./network_addresses.js";
@@ -117,11 +123,8 @@ app.get("*", (req, res) => {
 
   async function getItemsAsync(itemType, queryParameters) {
     try {
-      queryParameters =
-        queryParameters == "" ? "''" : JSON.parse(queryParameters);
-      if (queryParameters.item_id)
-        res.json(await getItem(itemType, queryParameters));
-      else res.json(await getItems(itemType, queryParameters));
+      queryParameters = JSON.parse(queryParameters);
+      res.json(await getItems(itemType, queryParameters));
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;
@@ -135,6 +138,7 @@ app.post("*", (req, res) => {
   var item_type;
 
   var exp = RegExp("\\w+(?=/*)", "g");
+  // @ts-ignore
   var operation_type = exp.exec(req.url)[0];
 
   /* ***                                                                                 *** */
@@ -146,6 +150,7 @@ app.post("*", (req, res) => {
   switch (operation_type) {
     case "add":
       exp = RegExp("(?<=/.+/).+", "g");
+      // @ts-ignore
       item_type = exp.exec(req.url)[0];
 
       addItemAsync(item_type, req.body);
@@ -153,8 +158,12 @@ app.post("*", (req, res) => {
     case "start":
       startTaskAsync(req.body);
       break;
-    case "delete":
+    case "complete":
+      completeTaskAsync(req.body);
+      break;
+    case "cancel_delete":
       exp = RegExp("(?<=/.+/).+", "g");
+      // @ts-ignore
       item_type = exp.exec(req.url)[0];
 
       deleteItemAsync(item_type, req.body);
@@ -170,6 +179,8 @@ app.post("*", (req, res) => {
     case "add":
       sendWebPushesAsync(req.body);
     case "start":
+      sendWebPushesAsync(req.body);
+    case "complete":
       sendWebPushesAsync(req.body);
   }
 
@@ -187,6 +198,17 @@ app.post("*", (req, res) => {
   async function startTaskAsync(data) {
     try {
       await startTask(data);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log("DB Error:", err);
+      res.statusMessage = err;
+      res.sendStatus(404);
+    }
+  }
+
+  async function completeTaskAsync(data) {
+    try {
+      await completeTask(data);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
@@ -234,6 +256,6 @@ server.listen(port, () => {
 });
 
 // Helper functions
-function isWindows() {
-  return os.platform() === "win32";
-}
+// function isWindows() {
+//   return os.platform() === "win32";
+// }
