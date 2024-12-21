@@ -11,13 +11,7 @@
 import express from "express";
 import https from "https";
 import fsSync from "fs";
-import {
-  addItem,
-  deleteItem,
-  getItems,
-  startTask,
-  completeTask,
-} from "./db.js";
+import { getItems, updateItem, addItem } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 import { network_addresses } from "./network_addresses.js";
@@ -101,7 +95,11 @@ const sendWebPush = async (subscription, dataToSend) => {
       /* body = 'push subscription has unsubscribed or expired.\n' */
       /* then it should indicate such in the database by setting the expired_dtm to the current datetime. */
       console.log("Subscription is no longer valid: ", subscription);
-      deleteItem("web_push_subscription", {
+      //   deleteItem("web_push_subscription", {
+      //     capability_url: subscription.endpoint,
+      //   });
+      updateItem("cancel_delete", {
+        item_type: "web_push_subscription",
         capability_url: subscription.endpoint,
       });
     }
@@ -156,17 +154,20 @@ app.post("*", (req, res) => {
       addItemAsync(item_type, req.body);
       break;
     case "start":
-      startTaskAsync(req.body);
+      //   startTaskAsync(req.body);
+      updateItemRoute(operation_type, req.body);
       break;
     case "complete":
-      completeTaskAsync(req.body);
+      //   completeTaskAsync(req.body);
+      updateItemRoute(operation_type, req.body);
       break;
     case "cancel_delete":
-      exp = RegExp("(?<=/.+/).+", "g");
-      // @ts-ignore
-      item_type = exp.exec(req.url)[0];
+      //   exp = RegExp("(?<=/.+/).+", "g");
+      //   // @ts-ignore
+      //   item_type = exp.exec(req.url)[0];
 
-      deleteItemAsync(item_type, req.body);
+      //   deleteItemAsync(item_type, req.body);
+      updateItemRoute(operation_type, req.body);
       break;
 
     default:
@@ -184,42 +185,20 @@ app.post("*", (req, res) => {
       sendWebPushesAsync(req.body);
   }
 
+  async function updateItemRoute(type, data) {
+    try {
+      await updateItem(type, data);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log("DB Error:", err);
+      res.statusMessage = err;
+      res.sendStatus(404);
+    }
+  }
+
   async function addItemAsync(type, data) {
     try {
       await addItem(type, data);
-      res.sendStatus(200);
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.sendStatus(404);
-    }
-  }
-
-  async function startTaskAsync(data) {
-    try {
-      await startTask(data);
-      res.sendStatus(200);
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.sendStatus(404);
-    }
-  }
-
-  async function completeTaskAsync(data) {
-    try {
-      await completeTask(data);
-      res.sendStatus(200);
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.sendStatus(404);
-    }
-  }
-
-  async function deleteItemAsync(type, data) {
-    try {
-      await deleteItem(type, data);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
@@ -254,8 +233,3 @@ async function getSubscriptionAsync() {
 server.listen(port, () => {
   console.log(`Express server is listening on port ${port}.`);
 });
-
-// Helper functions
-// function isWindows() {
-//   return os.platform() === "win32";
-// }

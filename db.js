@@ -42,28 +42,35 @@ export function getItems(item_type, queryString) {
   }
 }
 
-// export function getItem(item_type, queryString) {
-//   try {
-//     return new Promise(func);
-//   } catch (err) {
-//     console.log("Database error", err);
-//   }
+export async function updateItem(item_type, data) {
+  return new Promise(fn);
 
-//   function func(resolve, reject) {
-//     var dbCall = "Call p_get_item(?, ?)";
-//     pool.query(
-//       dbCall,
-//       [item_type, JSON.stringify(queryString)],
-//       function (error, rows) {
-//         if (error) {
-//           reject(error.message);
-//           return;
-//         }
-//         resolve(rows[0]);
-//       }
-//     );
-//   }
-// }
+  function fn(resolve, reject) {
+    pool.getConnection(function (err, con) {
+      if (err) {
+        return reject(err);
+      } else {
+        var dbCall = "Call p_update_item(?, ?)";
+        con.query(
+          dbCall,
+          [item_type, JSON.stringify(data)],
+          function (error, rows) {
+            if (error) {
+              var now = new Date().toLocaleString();
+              appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+              reject(
+                `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+              );
+            } else {
+              con.release(); // releasing connection to pool
+              return resolve(rows);
+            }
+          }
+        );
+      }
+    }); // getConnection
+  }
+}
 
 export async function addItem(item_type, data) {
   return new Promise(fn);
@@ -95,82 +102,82 @@ export async function addItem(item_type, data) {
   }
 }
 
-export async function deleteItem(item_type, data) {
-  return new Promise(fn);
+// export async function deleteItem(item_type, data) {
+//   return new Promise(fn);
 
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      var dbCall = "Call p_delete_item(?, ?)";
-      if (err) {
-        return reject(err);
-      } else {
-        con.query(
-          dbCall,
-          [item_type, JSON.stringify(data)],
-          function (error, rows) {
-            if (error) {
-              reject(error.message);
-            } else {
-              con.release(); // releasing connection to pool
-              return resolve(rows);
-            }
-          }
-        );
-      }
-    }); // getConnection
-  }
-}
+//   function fn(resolve, reject) {
+//     pool.getConnection(function (err, con) {
+//       var dbCall = "Call p_delete_item(?, ?)";
+//       if (err) {
+//         return reject(err);
+//       } else {
+//         con.query(
+//           dbCall,
+//           [item_type, JSON.stringify(data)],
+//           function (error, rows) {
+//             if (error) {
+//               reject(error.message);
+//             } else {
+//               con.release(); // releasing connection to pool
+//               return resolve(rows);
+//             }
+//           }
+//         );
+//       }
+//     }); // getConnection
+//   }
+// }
 
-export async function startTask(data) {
-  return new Promise(fn);
+// export async function startTask(data) {
+//   return new Promise(fn);
 
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      var dbCall = "Call p_start_task(?)";
-      if (err) {
-        return reject(err);
-      } else {
-        con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
-          if (error) {
-            reject(error.message);
-          } else {
-            con.release(); // releasing connection to pool
-            return resolve(rows);
-          }
-        });
-      }
-    }); // getConnection
-  }
-}
+//   function fn(resolve, reject) {
+//     pool.getConnection(function (err, con) {
+//       var dbCall = "Call p_start_task(?)";
+//       if (err) {
+//         return reject(err);
+//       } else {
+//         con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
+//           if (error) {
+//             reject(error.message);
+//           } else {
+//             con.release(); // releasing connection to pool
+//             return resolve(rows);
+//           }
+//         });
+//       }
+//     }); // getConnection
+//   }
+// }
 
-export async function completeTask(data) {
-  return new Promise(fn);
+// export async function completeTask(data) {
+//   return new Promise(fn);
 
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      var dbCall = "Call p_complete_task(?)";
-      if (err) {
-        return reject(err);
-      } else {
-        con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
-          if (error) {
-            var now = new Date().toLocaleString();
-            appendToFile(
-              DBErrorsPath,
-              dbCall + "\n" + error.message + "\n" + JSON.stringify(data) + "\n"
-            );
-            reject(
-              `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
-            );
-          } else {
-            con.release(); // releasing connection to pool
-            return resolve(rows);
-          }
-        });
-      }
-    }); // getConnection
-  }
-}
+//   function fn(resolve, reject) {
+//     pool.getConnection(function (err, con) {
+//       var dbCall = "Call p_complete_task(?)";
+//       if (err) {
+//         return reject(err);
+//       } else {
+//         con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
+//           if (error) {
+//             var now = new Date().toLocaleString();
+//             appendToFile(
+//               DBErrorsPath,
+//               dbCall + "\n" + error.message + "\n" + JSON.stringify(data) + "\n"
+//             );
+//             reject(
+//               `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+//             );
+//           } else {
+//             con.release(); // releasing connection to pool
+//             return resolve(rows);
+//           }
+//         });
+//       }
+//     }); // getConnection
+//   }
+// }
 
 /* *** Helper Functions *** */
 

@@ -241,3 +241,20 @@ ER_BAD_FIELD_ERROR: Unknown column 't.completed_dtm' in 'where clause'
 {"task_id":50}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/19/2024, 4:21:19 PM
+Call p_add_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Unknown column 'itemname' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/21/2024, 8:58:04 AM
+Call p_update_item(?, ?)
+ER_SP_DOES_NOT_EXIST: PROCEDURE life_helper.p_update_item does not exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/21/2024, 10:57:21 AM
+Call p_update_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
