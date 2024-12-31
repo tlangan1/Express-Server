@@ -258,3 +258,69 @@ Call p_update_item(?, ?)
 ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 4:24:37 PM
+Call p_add_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 4:25:48 PM
+Call p_add_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 4:55:03 PM
+Call p_add_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 4:59:41 PM
+Call p_add_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 5:03:40 PM
+Call p_add_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 5:05:00 PM
+Call p_add_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 5:10:38 PM
+Call p_add_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'item_name' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 5:41:50 PM
+Call p_add_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'item_name' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 5:45:06 PM
+Call p_add_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'item_name' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 5:47:03 PM
+Call p_add_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'item_name' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12/25/2024, 5:50:20 PM
+Call p_add_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'item_name' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
