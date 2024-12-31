@@ -108,7 +108,7 @@ const sendWebPush = async (subscription, dataToSend) => {
 };
 
 app.get("*", (req, res) => {
-  console.log("Server Get Request: url is ", req.url);
+  console.log(`Server Get Request (${new Date()}) url: is ${req.url}`);
 
   getItemsAsync(
     req.url.substring(1, req.url.indexOf(paramsDelimiter)),
@@ -177,11 +177,7 @@ app.post("*", (req, res) => {
   }
 
   switch (operation_type) {
-    case "add":
-      sendWebPushesAsync(req.body);
     case "start":
-      sendWebPushesAsync(req.body);
-    case "complete":
       sendWebPushesAsync(req.body);
   }
 
