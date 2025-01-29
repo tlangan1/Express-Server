@@ -11,10 +11,11 @@
 import express from "express";
 import https from "https";
 import fsSync from "fs";
-import { getItems, updateItem, addItem } from "./db.js";
+import { getItems, updateItem, addItem, checkItem } from "./db.js";
 import cors from "cors";
 import webpush from "web-push";
 import { network_addresses } from "./network_addresses.js";
+import bcrypt from "bcrypt";
 
 var configPath = "./config.json";
 var config = JSON.parse(fsSync.readFileSync(configPath, { encoding: "utf8" }));
@@ -138,6 +139,9 @@ app.post("*", (req, res) => {
   var exp = RegExp("\\w+(?=/*)", "g");
   // @ts-ignore
   var operation_type = exp.exec(req.url)[0];
+  exp = RegExp("(?<=/.+/).+", "g");
+  // @ts-ignore
+  item_type = exp.exec(req.url)[0];
 
   /* ***                                                                                 *** */
   // In case I want to group item types in the future this would be a way to group them.
@@ -147,27 +151,22 @@ app.post("*", (req, res) => {
 
   switch (operation_type) {
     case "add":
-      exp = RegExp("(?<=/.+/).+", "g");
-      // @ts-ignore
-      item_type = exp.exec(req.url)[0];
-
       addItemAsync(item_type, req.body);
       break;
+    case "pause":
+      updateItemRoute(operation_type, req.body);
+      break;
     case "start":
-      //   startTaskAsync(req.body);
       updateItemRoute(operation_type, req.body);
       break;
     case "complete":
-      //   completeTaskAsync(req.body);
       updateItemRoute(operation_type, req.body);
       break;
     case "cancel_delete":
-      //   exp = RegExp("(?<=/.+/).+", "g");
-      //   // @ts-ignore
-      //   item_type = exp.exec(req.url)[0];
-
-      //   deleteItemAsync(item_type, req.body);
       updateItemRoute(operation_type, req.body);
+      break;
+    case "check":
+      checkRoute(item_type, req.body);
       break;
 
     default:
@@ -194,7 +193,24 @@ app.post("*", (req, res) => {
 
   async function addItemAsync(type, data) {
     try {
+      var saltRounds = 10;
+      if (type == "user_login") {
+        const salt = bcrypt.genSaltSync(saltRounds);
+        data.password = bcrypt.hashSync(data.password, salt);
+      }
+
       await addItem(type, data);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log("DB Error:", err);
+      res.statusMessage = err;
+      res.sendStatus(404);
+    }
+  }
+
+  async function checkRoute(type, data) {
+    try {
+      await checkItem(type, data);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);

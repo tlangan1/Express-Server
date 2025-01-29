@@ -19,6 +19,12 @@ var pool = createPool({
   connectionLimit: 10,
 });
 
+/* *** *** */
+// See https://itnext.io/avoid-these-mistakes-when-using-database-connection-pools-ce2368beab51
+// for more information on implicit versus explicit connection access.
+/* *** *** */
+
+// In getItems I am using implicit connection access
 export function getItems(item_type, queryString) {
   try {
     return new Promise(func);
@@ -33,7 +39,11 @@ export function getItems(item_type, queryString) {
       [item_type, JSON.stringify(queryString)],
       function (error, rows) {
         if (error) {
-          reject(error.message);
+          var now = new Date().toLocaleString();
+          appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+          reject(
+            `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+          );
           return;
         }
         resolve(rows[0]);
@@ -42,6 +52,7 @@ export function getItems(item_type, queryString) {
   }
 }
 
+// In updateItem I am using explicit connection access
 export async function updateItem(item_type, data) {
   return new Promise(fn);
 
@@ -62,16 +73,18 @@ export async function updateItem(item_type, data) {
                 `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
               );
             } else {
-              con.release(); // releasing connection to pool
+              // con.release(); // releasing connection to pool
               return resolve(rows);
             }
           }
         );
+        con.release(); // releasing connection to pool
       }
     }); // getConnection
   }
 }
 
+// In updateItem I am using explicit connection access
 export async function addItem(item_type, data) {
   return new Promise(fn);
 
@@ -92,11 +105,40 @@ export async function addItem(item_type, data) {
                 `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
               );
             } else {
-              con.release(); // releasing connection to pool
+              // con.release(); // releasing connection to pool
               return resolve(rows);
             }
           }
         );
+        con.release(); // releasing connection to pool
+      }
+    }); // getConnection
+  }
+}
+
+// In checkItem I am using explicit connection access
+export async function checkItem(item_type, data) {
+  return new Promise(fn);
+
+  function fn(resolve, reject) {
+    pool.getConnection(function (err, con) {
+      if (err) {
+        return reject(err);
+      } else {
+        var dbCall = `Call p_check_${item_type} (?)`;
+        con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
+          if (error) {
+            var now = new Date().toLocaleString();
+            appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+            reject(
+              `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+            );
+          } else {
+            // con.release(); // releasing connection to pool
+            return resolve(rows);
+          }
+        });
+        con.release(); // releasing connection to pool
       }
     }); // getConnection
   }
