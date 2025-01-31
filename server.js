@@ -193,12 +193,6 @@ app.post("*", (req, res) => {
 
   async function addItemAsync(type, data) {
     try {
-      var saltRounds = 10;
-      if (type == "user_login") {
-        const salt = bcrypt.genSaltSync(saltRounds);
-        data.password = bcrypt.hashSync(data.password, salt);
-      }
-
       await addItem(type, data);
       res.sendStatus(200);
     } catch (err) {
@@ -210,12 +204,33 @@ app.post("*", (req, res) => {
 
   async function checkRoute(type, data) {
     try {
-      await checkItem(type, data);
-      res.sendStatus(200);
+      /* *** Most check routes will be handled in the context of a stored procedure  *** */
+      /* *** but the user_login check should be handled in the context of the server *** */
+      /* *** to protect the actual password as much as possible.                     *** */
+      if (type == "user_login") {
+        var storedLogin = await getItems(type, data);
+        console.log("User data is: ", storedLogin);
+        if (bcrypt.compareSync(data.password, storedLogin[0].hashed_password)) {
+          res.json({
+            success: true,
+            user_name: storedLogin[0].user_name,
+            full_name: storedLogin[0].full_name,
+            display_name: storedLogin[0].display_name,
+            create_dtm: storedLogin[0].create_dtm,
+          });
+        } else {
+          res.json({ result: "failure" });
+        }
+      } else {
+        var result = await checkItem(type, data);
+        res.json(result[0][0]);
+      }
+      //   res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;
-      res.sendStatus(404);
+      res.json({ result: "failure" });
+      //   res.sendStatus(404);
     }
   }
 });

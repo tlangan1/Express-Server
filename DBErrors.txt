@@ -408,3 +408,9 @@ Call p_check_check (?)
 ER_SP_DOES_NOT_EXIST: PROCEDURE life_helper.p_check_check does not exist
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1/30/2025, 2:32:02 PM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
