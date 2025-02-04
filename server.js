@@ -193,6 +193,12 @@ app.post("*", (req, res) => {
 
   async function addItemAsync(type, data) {
     try {
+      var saltRounds = 10;
+      if (type == "user_login") {
+        const salt = bcrypt.genSaltSync(saltRounds);
+        data.password = bcrypt.hashSync(data.password, salt);
+      }
+
       await addItem(type, data);
       res.sendStatus(200);
     } catch (err) {
@@ -216,6 +222,7 @@ app.post("*", (req, res) => {
             user_name: storedLogin[0].user_name,
             full_name: storedLogin[0].full_name,
             display_name: storedLogin[0].display_name,
+            email_address: storedLogin[0].email_address,
             create_dtm: storedLogin[0].create_dtm,
           });
         } else {
