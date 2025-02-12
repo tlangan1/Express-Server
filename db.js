@@ -10,11 +10,14 @@ if (!fsSync.existsSync(DBErrorsPath)) {
   await fsAsync.appendFile(DBErrorsPath, "**************************\n\n");
 }
 
+var configPath = "./config.json";
+var config = JSON.parse(fsSync.readFileSync(configPath, { encoding: "utf8" }));
+
 var pool = createPool({
   host: "localhost",
   user: "tlangan",
   password: "-UnderAWhiteSky1",
-  database: "life_helper", //schema
+  database: config.database, //schema
   // Remember, connections are lazily created
   connectionLimit: 10,
 });

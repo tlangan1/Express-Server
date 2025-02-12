@@ -111,6 +111,12 @@ const sendWebPush = async (subscription, dataToSend) => {
 app.get("*", (req, res) => {
   console.log(`Server Get Request (${new Date()}) url: is ${req.url}`);
 
+  if (req.url == "/isProduction") {
+    res.json({
+      isProduction: config.database == "life_helper" ? true : false,
+    });
+    return;
+  }
   getItemsAsync(
     req.url.substring(1, req.url.indexOf(paramsDelimiter)),
     decodeURI(
@@ -223,7 +229,7 @@ app.post("*", (req, res) => {
             full_name: storedLogin[0].full_name,
             display_name: storedLogin[0].display_name,
             email_address: storedLogin[0].email_address,
-            create_dtm: storedLogin[0].create_dtm,
+            created_dtm: storedLogin[0].created_dtm,
           });
         } else {
           res.json({ result: "failure" });
