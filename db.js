@@ -4,17 +4,22 @@ import { createPool } from "mysql";
 import fsSync from "fs";
 import fsAsync from "fs/promises";
 
+import { sendWebPushes } from "./web_push.js";
+
 var DBErrorsPath = "DBErrors.txt";
 if (!fsSync.existsSync(DBErrorsPath)) {
   await fsAsync.appendFile(DBErrorsPath, "DB Errors are logged here.\n");
   await fsAsync.appendFile(DBErrorsPath, "**************************\n\n");
 }
 
+var configPath = "./config.json";
+var config = JSON.parse(fsSync.readFileSync(configPath, { encoding: "utf8" }));
+
 var pool = createPool({
   host: "localhost",
   user: "tlangan",
   password: "-UnderAWhiteSky1",
-  database: "life_helper", //schema
+  database: config.database, //schema
   // Remember, connections are lazily created
   connectionLimit: 10,
 });
@@ -25,18 +30,14 @@ var pool = createPool({
 /* *** *** */
 
 // In getItems I am using implicit connection access
-export function getItems(item_type, queryString) {
-  try {
-    return new Promise(func);
-  } catch (err) {
-    console.log("Database error", err);
-  }
+export function getItems(itemType, queryString) {
+  return new Promise(func);
 
   function func(resolve, reject) {
     var dbCall = "Call p_get_items(?, ?)";
     pool.query(
       dbCall,
-      [item_type, JSON.stringify(queryString)],
+      [itemType, JSON.stringify(queryString)],
       function (error, rows) {
         if (error) {
           var now = new Date().toLocaleString();
@@ -52,8 +53,32 @@ export function getItems(item_type, queryString) {
   }
 }
 
+// In getItem I am using implicit connection access
+export function getItem(itemType, queryString) {
+  return new Promise(func);
+
+  function func(resolve, reject) {
+    var dbCall = "Call p_get_item(?, ?)";
+    pool.query(
+      dbCall,
+      [itemType, JSON.stringify(queryString)],
+      function (error, rows) {
+        if (error) {
+          var now = new Date().toLocaleString();
+          appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+          reject(
+            `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+          );
+          return;
+        }
+        resolve(rows[0][0]);
+      }
+    );
+  }
+}
+
 // In updateItem I am using explicit connection access
-export async function updateItem(item_type, data) {
+export async function updateItem(operationType, data, sendWebPush) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
@@ -64,7 +89,7 @@ export async function updateItem(item_type, data) {
         var dbCall = "Call p_update_item(?, ?)";
         con.query(
           dbCall,
-          [item_type, JSON.stringify(data)],
+          [operationType, JSON.stringify(data)],
           function (error, rows) {
             if (error) {
               var now = new Date().toLocaleString();
@@ -73,7 +98,7 @@ export async function updateItem(item_type, data) {
                 `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
               );
             } else {
-              // con.release(); // releasing connection to pool
+              if (sendWebPush) sendWebPushes(operationType, data.task_id);
               return resolve(rows);
             }
           }
@@ -85,7 +110,7 @@ export async function updateItem(item_type, data) {
 }
 
 // In updateItem I am using explicit connection access
-export async function addItem(item_type, data) {
+export async function addItem(itemType, data) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
@@ -96,7 +121,7 @@ export async function addItem(item_type, data) {
         var dbCall = "Call p_add_item(?, ?)";
         con.query(
           dbCall,
-          [item_type, JSON.stringify(data)],
+          [itemType, JSON.stringify(data)],
           function (error, rows) {
             if (error) {
               var now = new Date().toLocaleString();
@@ -117,7 +142,7 @@ export async function addItem(item_type, data) {
 }
 
 // In checkItem I am using explicit connection access
-export async function checkItem(item_type, data) {
+export async function checkItem(itemType, data) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
@@ -125,7 +150,7 @@ export async function checkItem(item_type, data) {
       if (err) {
         return reject(err);
       } else {
-        var dbCall = `Call p_check_${item_type} (?)`;
+        var dbCall = `Call p_check_${itemType} (?)`;
         con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
           if (error) {
             var now = new Date().toLocaleString();

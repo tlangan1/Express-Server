@@ -1,7 +1,7 @@
 "use strict";
 
 // server.js: This code provides a thin wrapper around an express server
-// listening for http requests on the port by the variable port.
+// listening for https requests on the port identified by the variable, "port".
 /* *** *** */
 // DO NOT USE the localhost domain for anything
 // It forces all the pieces, the web server, the express server and database
@@ -11,11 +11,11 @@
 import express from "express";
 import https from "https";
 import fsSync from "fs";
-import { getItems, updateItem, addItem, checkItem } from "./db.js";
 import cors from "cors";
-import webpush from "web-push";
-import { network_addresses } from "./network_addresses.js";
 import bcrypt from "bcrypt";
+
+import { getItems, updateItem, addItem, checkItem } from "./db.js";
+import { network_addresses } from "./network_addresses.js";
 
 var configPath = "./config.json";
 var config = JSON.parse(fsSync.readFileSync(configPath, { encoding: "utf8" }));
@@ -24,8 +24,10 @@ const app = express();
 const port = 3001;
 var cors_origin_array = [];
 
-// Without DNS resolution, hardcoding of the IP address
-// of the machine hosting the web server is required.
+// Without DNS resolution, hardcoding of the IP address of
+// the machine hosting the web server is the best practice.
+// You could use the hosts file on every device that needs to
+// access the web server but that is even worse than hardcoding.
 cors_origin_array.push(config.web_server_url);
 
 // HTTPS related code
@@ -34,9 +36,10 @@ const options = {
   cert: fsSync.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
   // Supporting multiple https domains is possible in a single certificate.
   // For example, to support 192.168.1.10, 192.168.144.1 and 172.22.112.1
-  // you could do the following.
-  // This works because I built this certificate with the following command
+  // you could build a certificate with the following command
   // *** mkcert 192.168.1.10 192.168.144.1 172.22.112.1 ***
+  // and then, if you name the certificate "combined-key" you could use the
+  // following code to load the certificate
   // key: fs.readFileSync(`./cert/combined-key.pem`),
   // cert: fs.readFileSync(`./cert/combined.pem`),
 };
@@ -70,60 +73,29 @@ const server = https.createServer(options, app);
 
 const paramsDelimiter = "?params=";
 
-/* *** Web push related code  *** */
-// cSpell:disable
-const vapidKeys = {
-  publicKey:
-    "BExD80_HkFrtVmffpbNP-KzVCoL6Y1m7sTvP6Ai7vCGZsn-XDsjwCEbG5Hz0sE0K3_crP6-1Jqdw2a-tjHKEqHk",
-  privateKey: "SNas0P12bbdAoIzM0MVkGgSouX79t2TRmYihVSpSD4Q", // this should be 32 bytes long
-};
-// cSpell:enable
-
-//setting our previously generated VAPID keys
-webpush.setVapidDetails(
-  "https://fcm.googleapis.com/fcm/send/cco2KhtpOvY:APA91bFz2zs2V-rF458VOEA9kwCE2S8t8vHG-u-CIO2QlaURl4aI1EAVIQBnRloED10GN4bQCXcDeynMhhhAEfgObuqqPkV_qDS99aQ91gwn4Y0hoRq_NmpYOeLUhITZiwf1vIVJxtuB",
-  vapidKeys.publicKey,
-  vapidKeys.privateKey
-);
-//function to send the notification to the subscribed device
-const sendWebPush = async (subscription, dataToSend) => {
-  try {
-    var x = await webpush.sendNotification(subscription, dataToSend);
-  } catch (err) {
-    if (err.statusCode == 410) {
-      /* If the express server receives a response from the push notification service */
-      /* that the push notification has expired indicated by status code 410 and */
-      /* body = 'push subscription has unsubscribed or expired.\n' */
-      /* then it should indicate such in the database by setting the expired_dtm to the current datetime. */
-      console.log("Subscription is no longer valid: ", subscription);
-      //   deleteItem("web_push_subscription", {
-      //     capability_url: subscription.endpoint,
-      //   });
-      updateItem("cancel_delete", {
-        item_type: "web_push_subscription",
-        capability_url: subscription.endpoint,
-      });
-    }
-    console.log(err);
-  }
-};
-
 app.get("*", (req, res) => {
   console.log(`Server Get Request (${new Date()}) url: is ${req.url}`);
 
-  getItemsAsync(
-    req.url.substring(1, req.url.indexOf(paramsDelimiter)),
-    decodeURI(
-      req.url.substring(
-        req.url.indexOf(paramsDelimiter) + paramsDelimiter.length
+  if (req.url == "/isProduction") {
+    res.json({
+      isProduction: config.database == "life_helper" ? true : false,
+    });
+    return;
+  }
+  getItemsRoute({
+    item_type: req.url.substring(1, req.url.indexOf(paramsDelimiter)),
+    queryParameters: JSON.parse(
+      decodeURI(
+        req.url.substring(
+          req.url.indexOf(paramsDelimiter) + paramsDelimiter.length
+        )
       )
-    )
-  );
+    ),
+  });
 
-  async function getItemsAsync(itemType, queryParameters) {
+  async function getItemsRoute(params) {
     try {
-      queryParameters = JSON.parse(queryParameters);
-      res.json(await getItems(itemType, queryParameters));
+      res.json(await getItems(params.item_type, params.queryParameters));
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;
@@ -134,39 +106,32 @@ app.get("*", (req, res) => {
 
 app.post("*", (req, res) => {
   console.log("Server Post Request:", "url is ", req.url, "body is", req.body);
-  var item_type;
+  var itemType;
 
   var exp = RegExp("\\w+(?=/*)", "g");
   // @ts-ignore
-  var operation_type = exp.exec(req.url)[0];
+  var operationType = exp.exec(req.url)[0];
   exp = RegExp("(?<=/.+/).+", "g");
   // @ts-ignore
-  item_type = exp.exec(req.url)[0];
+  itemType = exp.exec(req.url)[0];
+  var payload = {
+    operation_type: operationType,
+    item_type: itemType,
+    data: req.body,
+  };
 
-  /* ***                                                                                 *** */
-  // In case I want to group item types in the future this would be a way to group them.
-  // In the example below we would only get a hit on add update or delete but nothing else.
-  // exp = RegExp("(?<=/add/|/update/|/delete/).+", "g");
-  /* ***                                                                                 *** */
-
-  switch (operation_type) {
+  switch (operationType) {
     case "add":
-      addItemAsync(item_type, req.body);
+      addItemRoute(payload);
       break;
     case "pause":
-      updateItemRoute(operation_type, req.body);
-      break;
     case "start":
-      updateItemRoute(operation_type, req.body);
-      break;
     case "complete":
-      updateItemRoute(operation_type, req.body);
-      break;
     case "cancel_delete":
-      updateItemRoute(operation_type, req.body);
+      updateItemRoute(payload);
       break;
     case "check":
-      checkRoute(item_type, req.body);
+      checkRoute({ item_type: itemType, data: req.body });
       break;
 
     default:
@@ -175,14 +140,9 @@ app.post("*", (req, res) => {
       break;
   }
 
-  switch (operation_type) {
-    case "start":
-      sendWebPushesAsync(req.body);
-  }
-
-  async function updateItemRoute(type, data) {
+  async function updateItemRoute(payload) {
     try {
-      await updateItem(type, data);
+      await updateItem(payload.operation_type, payload.data, true);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
@@ -191,15 +151,19 @@ app.post("*", (req, res) => {
     }
   }
 
-  async function addItemAsync(type, data) {
+  async function addItemRoute(payload) {
     try {
       var saltRounds = 10;
-      if (type == "user_login") {
+      if (payload.item_type == "user_login") {
         const salt = bcrypt.genSaltSync(saltRounds);
-        data.password = bcrypt.hashSync(data.password, salt);
+        payload.data.hashed_password = bcrypt.hashSync(
+          payload.data.password,
+          salt
+        );
+        delete payload.data.password;
       }
 
-      await addItem(type, data);
+      await addItem(payload.item_type, payload.data);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
@@ -208,28 +172,33 @@ app.post("*", (req, res) => {
     }
   }
 
-  async function checkRoute(type, data) {
+  async function checkRoute(payload) {
     try {
       /* *** Most check routes will be handled in the context of a stored procedure  *** */
       /* *** but the user_login check should be handled in the context of the server *** */
       /* *** to protect the actual password as much as possible.                     *** */
-      if (type == "user_login") {
-        var storedLogin = await getItems(type, data);
+      if (payload.item_type == "user_login") {
+        var storedLogin = await getItems(payload.item_type, payload.data);
         console.log("User data is: ", storedLogin);
-        if (bcrypt.compareSync(data.password, storedLogin[0].hashed_password)) {
+        if (
+          bcrypt.compareSync(
+            payload.data.password,
+            storedLogin[0].hashed_password
+          )
+        ) {
           res.json({
             success: true,
             user_name: storedLogin[0].user_name,
             full_name: storedLogin[0].full_name,
             display_name: storedLogin[0].display_name,
             email_address: storedLogin[0].email_address,
-            create_dtm: storedLogin[0].create_dtm,
+            created_dtm: storedLogin[0].created_dtm,
           });
         } else {
           res.json({ result: "failure" });
         }
       } else {
-        var result = await checkItem(type, data);
+        var result = await checkItem(payload.item_type, payload.data);
         res.json(result[0][0]);
       }
       //   res.sendStatus(200);
@@ -241,28 +210,6 @@ app.post("*", (req, res) => {
     }
   }
 });
-
-async function sendWebPushesAsync(message) {
-  var subscriptions = await getSubscriptionAsync();
-
-  subscriptions.forEach((subscription) => {
-    const push_subscription = {
-      // capability_url in the database
-      endpoint: subscription.capability_url,
-      keys: {
-        p256dh: subscription.public_key,
-        auth: subscription.private_key,
-      },
-    };
-
-    //   if (push_subscription.keys.auth == "91u78HuSRvE009UoiBSkdA")
-    sendWebPush(push_subscription, JSON.stringify(message));
-  });
-}
-
-async function getSubscriptionAsync() {
-  return await getItems("subscriptions", `''`);
-}
 
 server.listen(port, () => {
   console.log(`Express server is listening on port ${port}.`);
