@@ -468,3 +468,111 @@ Call p_get_items(?, ?)
 ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/26/2025, 6:47:17 PM
+Call p_add_item(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'domain' in 'field list'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/26/2025, 7:01:49 PM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/26/2025, 7:19:37 PM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/26/2025, 7:26:20 PM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 8:38:56 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 8:40:09 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 8:42:44 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 8:58:21 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 9:37:27 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'capability_url' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 10:16:05 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 10:22:46 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'capability_url' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 10:48:59 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'domain' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 2:07:46 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Incorrect integer value: 'Tom.Langan@Comcast.net' for column 'user_login_id' at row 1"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 3:05:54 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2/27/2025, 3:09:09 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/1/2025, 2:20:42 PM
+Call p_get_items(?, ?)
+ER_NO_SUCH_TABLE: Table 'test_life_helper.t2' doesn't exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/1/2025, 2:22:13 PM
+Call p_get_items(?, ?)
+ER_NO_SUCH_TABLE: Table 'test_life_helper.t2' doesn't exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/1/2025, 2:24:04 PM
+Call p_get_items(?, ?)
+ER_NO_SUCH_TABLE: Table 'test_life_helper.t2' doesn't exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
