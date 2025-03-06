@@ -118,6 +118,7 @@ app.post("*", (req, res) => {
     operation_type: operationType,
     item_type: itemType,
     data: req.body,
+    origin: req.headers.origin,
   };
 
   switch (operationType) {
@@ -163,6 +164,22 @@ app.post("*", (req, res) => {
         delete payload.data.password;
       }
 
+      // The "domain" does not have a purpose in a production environment
+      // in which only one web application is being served from the server
+      // because DNS resolution will be used, not raw IP addresses;
+      // however, in a development environment, especially
+      // when switching between networks, with different IP addresses
+      // being assigned it is helpful to have a record of the IP address
+      // associated with a given service worker subscription.
+      /* *** *** */
+      // In a real world situation where the data server is being used
+      // to support multiple web applications on different domains,
+      // knowing the domain associated with web push subscriptions
+      // might be helpful.
+      if (payload.item_type == "web_push_subscription") {
+        payload.data.domain = payload.origin;
+      }
+
       await addItem(payload.item_type, payload.data);
       res.sendStatus(200);
     } catch (err) {
@@ -186,13 +203,15 @@ app.post("*", (req, res) => {
             storedLogin[0].hashed_password
           )
         ) {
+          delete storedLogin[0].hashed_password;
           res.json({
             success: true,
-            user_name: storedLogin[0].user_name,
-            full_name: storedLogin[0].full_name,
-            display_name: storedLogin[0].display_name,
-            email_address: storedLogin[0].email_address,
-            created_dtm: storedLogin[0].created_dtm,
+            ...storedLogin[0],
+            // user_name: storedLogin[0].user_name,
+            // full_name: storedLogin[0].full_name,
+            // display_name: storedLogin[0].display_name,
+            // email_address: storedLogin[0].email_address,
+            // created_dtm: storedLogin[0].created_dtm,
           });
         } else {
           res.json({ result: "failure" });
