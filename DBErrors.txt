@@ -576,3 +576,105 @@ Call p_get_items(?, ?)
 ER_NO_SUCH_TABLE: Table 'test_life_helper.t2' doesn't exist
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/7/2025, 6:18:12 PM
+Call p_get_items(?, ?)
+Handshake inactivity timeout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/7/2025, 6:38:54 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Table 'life_helper.task_user' doesn't exist"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 5:03:06 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Case not found for CASE statement"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 5:38:18 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Case not found for CASE statement"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 5:41:26 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Case not found for CASE statement"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 5:44:18 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Case not found for CASE statement"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 5:49:58 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Case not found for CASE statement"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 5:55:05 PM
+Call p_update_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 7:28:47 PM
+Call p_update_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 7:29:18 PM
+Call p_update_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/10/2025, 8:00:07 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Case not found for CASE statement"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/11/2025, 4:02:36 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/11/2025, 4:03:58 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/11/2025, 4:07:09 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/11/2025, 4:13:10 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/11/2025, 4:14:30 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/11/2025, 4:16:17 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

@@ -76,9 +76,9 @@ const paramsDelimiter = "?params=";
 app.get("*", (req, res) => {
   console.log(`Server Get Request (${new Date()}) url: is ${req.url}`);
 
-  if (req.url == "/isProduction") {
+  if (req.url == "/data_source") {
     res.json({
-      isProduction: config.database == "life_helper" ? true : false,
+      dataSource: config.database,
     });
     return;
   }
@@ -115,7 +115,7 @@ app.post("*", (req, res) => {
   // @ts-ignore
   itemType = exp.exec(req.url)[0];
   var payload = {
-    operation_type: operationType,
+    // operation_type: operationType,
     item_type: itemType,
     data: req.body,
     origin: req.headers.origin,
@@ -125,14 +125,15 @@ app.post("*", (req, res) => {
     case "add":
       addItemRoute(payload);
       break;
-    case "pause":
-    case "start":
-    case "complete":
-    case "cancel_delete":
+    case "update":
       updateItemRoute(payload);
       break;
     case "check":
       checkRoute({ item_type: itemType, data: req.body });
+      break;
+
+    case "set":
+      setRoute({ item_type: itemType, data: req.body.database });
       break;
 
     default:
@@ -141,9 +142,15 @@ app.post("*", (req, res) => {
       break;
   }
 
+  async function setRoute(payload) {
+    config.database = payload.data;
+    fsSync.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    res.sendStatus(200);
+  }
+
   async function updateItemRoute(payload) {
     try {
-      await updateItem(payload.operation_type, payload.data, true);
+      await updateItem(payload.item_type, payload.data, true);
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);

@@ -9,6 +9,8 @@
   - [Routes](#routes)
     - [Get Routes](#get-routes)
     - [Post Routes](#post-routes)
+      - [Add routes](#add-routes)
+      - [Update routes](#update-routes)
   - [Database](#database)
     - [Users work tasks](#users-work-tasks)
 
@@ -71,6 +73,8 @@
   - if the success callback in the database operation is called the operation it considered successful.
 - The principle that is being used to name `POST` routes is that the name should be sufficient for the data server to call the correct stored procedure without parsing the JSON data in the body.
 
+#### Add routes
+
 - To add an objective, goal or task:
   - route: `/add/[objective|goal|task]`
   - body:
@@ -128,24 +132,30 @@
   - stored procedure: `p_add_item`
   - response from database: See the <a href="#shared-route-behavior">shared behavior</a>.
   - response to request: See <a href="#shared-route-behavior">shared behavior</a>.
-- To start, pause or complete a task:
-  - route: `/[start|pause|complete]/task`
+
+#### Update routes
+
+- To start, pause, resume or complete a task:
+  - route: `/update/task`
   - body:
     ```
     {
-      task_id: [positive integer],
+      operation_type: [start|pause|resume|complete],
+      task_id: <positive integer>,
+      user_login_id: <positive integer>,
     }
     ```
   - stored procedure: `p_update_item`
   - response from database: See the <a href="#shared-route-behavior">shared behavior</a>.
   - response to request: See <a href="#shared-route-behavior">shared behavior</a>.
 - To cancel/delete an objective, goal or task:
-  - route: `/cancel_delete/[objective|goal|task]`
+  - route: `/update/[objective|goal|task]`
   - body:
     ```
     {
-        item_type: ['objective'|'goal'|'task'],
+        operation_type: cancel_delete,
         item_id: [positive integer]
+        user_login_id: <positive integer>,
     }
     ```
   - stored procedure: `p_update_item`
@@ -163,6 +173,17 @@
   - stored procedure: `p_get_items`
   - response from database: A JSON object containing all the columns in the user_login table except the hashed_password and deleted_dtm columns.
   - response to request: The JSON object returned from the database.
+- This route is used to switch between the life_helper and test_life_helper databases. It is merely for convenience when developing and has no role in a production environment. If I am developing against the test database and something occurs to me that I would like to document in an objective, goal or task in the production database, I can switch data sources momentarily to do so and then switch back without making any configuration changes.
+  - route: `/set/data_source`
+  - body:
+    ```
+    {
+      database: [string],
+    }
+    ```
+  - stored procedure: N/A
+  - response from database: N/A.
+  - response to request: 200 or failure.
 - `THIS ROUTE DOES NOT YET EXIST AS OF 2/12/2025`: To attach a goal to an existing objective or a task to an existing goal:
   - route: `/attach/[goal|task]`
   - body:
