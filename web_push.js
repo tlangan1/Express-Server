@@ -18,12 +18,12 @@ webpush.setVapidDetails(
   vapidKeys.privateKey
 );
 
-export async function sendWebPushes(operationType, task_id) {
+export async function sendWebPushes(operationType, item_id, itemType) {
   var subscriptions = await getSubscription();
-  var data = await getItem("task", { item_id: task_id });
-  var message = `Task with name(id) [${data.item_name}(${
-    data.task_id
-  })] was ${conjugateVerb(
+  var data = await getItem(itemType, { item_id: item_id });
+  var message = `${itemType} with name(id) [${
+    data.item_name
+  }(${item_id})] was ${conjugateVerb(
     operationType == "pause"
       ? data.paused_dtm == null
         ? "restart"
@@ -59,9 +59,9 @@ const sendWebPush = async (subscription, dataToSend) => {
       // then the subscription should be canceled in the database
       // by setting the expired_dtm to the current datetime.
       updateItem(
-        "cancel_delete",
+        "web_push_subscription",
         {
-          item_type: "web_push_subscription",
+          item_type: "cancel_delete",
           capability_url: subscription.endpoint,
         },
         false

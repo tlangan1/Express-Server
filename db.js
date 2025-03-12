@@ -78,7 +78,7 @@ export function getItem(itemType, queryString) {
 }
 
 // In updateItem I am using explicit connection access
-export async function updateItem(operationType, data, sendWebPush) {
+export async function updateItem(itemType, data, sendWebPush) {
   return new Promise(fn);
 
   function fn(resolve, reject) {
@@ -89,7 +89,7 @@ export async function updateItem(operationType, data, sendWebPush) {
         var dbCall = "Call p_update_item(?, ?)";
         con.query(
           dbCall,
-          [operationType, JSON.stringify(data)],
+          [itemType, JSON.stringify(data)],
           function (error, rows) {
             if (error) {
               var now = new Date().toLocaleString();
@@ -98,7 +98,7 @@ export async function updateItem(operationType, data, sendWebPush) {
                 `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
               );
             } else {
-              if (sendWebPush) sendWebPushes(operationType, data.task_id);
+              if (sendWebPush) sendWebPushes(itemType, data.item_id, itemType);
               return resolve(rows);
             }
           }
