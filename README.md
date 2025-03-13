@@ -11,6 +11,7 @@
     - [Post Routes](#post-routes)
       - [Add routes](#add-routes)
       - [Update routes](#update-routes)
+      - [Other routes](#other-routes)
   - [Database](#database)
     - [Users work tasks](#users-work-tasks)
 
@@ -51,6 +52,9 @@
 
 ## Routes
 
+- Common route behavior:
+  - if the error callback in the database operation is not called the operation it considered successful and the server responds with a response status code of 200, `OK`.
+
 ### Get Routes
 
 - To get a list of zero or more objectives, goals, tasks, notes or web push subscriptions
@@ -66,15 +70,11 @@
 
 ### Post Routes
 
-<span id="shared-route-behavior"></span>
-
-- Common route behavior:
-  - response.ok is used to test all post routes for successful completion.
-  - if the success callback in the database operation is called the operation it considered successful.
-- The principle that is being used to name `POST` routes is that the name should be sufficient for the data server to call the correct stored procedure without parsing the JSON data in the body.
+- The `POST` routes are named such that the data server can call the correct stored procedure without parsing the JSON data in the body.
 
 #### Add routes
 
+- All the `add` routes result in calling the stored procedure `p_add_item` to which the item type is sent as the first parameter and the JSON body of the post is sent as the second parameter.
 - To add an objective, goal or task:
   - route: `/add/[objective|goal|task]`
   - body:
@@ -85,9 +85,6 @@
       item_description: [string]
     }
     ```
-  - stored procedure: `p_add_item`
-  - response from database: See the <a href="#shared-route-behavior">shared behavior</a>.
-  - response to request: See <a href="#shared-route-behavior">shared behavior</a>.
 - To add a note to a note:
   - route: `/add/note`
   - body:
@@ -98,9 +95,6 @@
       note_text: [string]
     }
     ```
-  - stored procedure: `p_add_item`
-  - response from database: See the <a href="#shared-route-behavior">shared behavior</a>.
-  - response to request: See <a href="#shared-route-behavior">shared behavior</a>.
 - To add a web push subscription `Remember this happens in the service worker`:
   - route: `/add/web_push_subscription`
   - body:
@@ -114,9 +108,6 @@
         }
     }
     ```
-  - stored procedure: `p_add_item`
-  - response from database: See the <a href="#shared-route-behavior">shared behavior</a>.
-  - response to request: See <a href="#shared-route-behavior">shared behavior</a>.
 - To add a user_login:
   - route: `/add/user_login`
   - body:
@@ -129,12 +120,10 @@
         email_address: [string | null]
     }
     ```
-  - stored procedure: `p_add_item`
-  - response from database: See the <a href="#shared-route-behavior">shared behavior</a>.
-  - response to request: See <a href="#shared-route-behavior">shared behavior</a>.
 
 #### Update routes
 
+- All the `update` routes result in calling the stored procedure `p_update_item` to which the item type is sent as the first parameter and the JSON body of the post is sent as the second parameter.
 - To start, pause, resume or complete a task:
   - route: `/update/task`
   - body:
@@ -145,9 +134,6 @@
       user_login_id: <positive integer>,
     }
     ```
-  - stored procedure: `p_update_item`
-  - response from database: See the <a href="#shared-route-behavior">shared behavior</a>.
-  - response to request: See <a href="#shared-route-behavior">shared behavior</a>.
 - To cancel/delete an objective, goal or task:
   - route: `/update/[objective|goal|task]`
   - body:
@@ -158,9 +144,9 @@
         user_login_id: <positive integer>,
     }
     ```
-  - stored procedure: `p_update_item`
-  - response from database: See the <a href="#shared-route-behavior">shared behavior</a>.
-  - response to request: See <a href="#shared-route-behavior">shared behavior</a>.
+
+#### Other routes
+
 - To login: Even though this is a `check` route there is no call to a check stored procedure. This is because of the need to protect the clear text password from ever being exposed to the database environment where it might be recorded in a log or a dump or whatever. The checking of the clear text password as presented by the user against the hashed password in the database is all done within the context of an in memory operation in the Express server.
   - route: `/check/user_login`
   - body:

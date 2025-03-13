@@ -214,11 +214,6 @@ app.post("*", (req, res) => {
           res.json({
             success: true,
             ...storedLogin[0],
-            // user_name: storedLogin[0].user_name,
-            // full_name: storedLogin[0].full_name,
-            // display_name: storedLogin[0].display_name,
-            // email_address: storedLogin[0].email_address,
-            // created_dtm: storedLogin[0].created_dtm,
           });
         } else {
           res.json({ result: "failure" });
