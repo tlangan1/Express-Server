@@ -12,8 +12,6 @@
       - [Add routes](#add-routes)
       - [Update routes](#update-routes)
       - [Other routes](#other-routes)
-  - [Database](#database)
-    - [Users work tasks](#users-work-tasks)
 
 ## Notes
 
@@ -182,20 +180,3 @@
   - stored procedure: `p_attach_item`
   - response from database: `TO DO`
   - response from database: `TO DO`
-
-## Database
-
-### Users work tasks
-
-- Here is a diagram of the relationship between users and tasks.
-
-  ```mermaid
-  erDiagram
-    user_login ||--o{ task_user : works
-    task ||--|{ task_user : "typically this is one to one...see notes below"
-  ```
-
-  - If a user is unable to complete a given task and it needs to get reassigned to another user then there would be two rows in task_user associated with that task.
-  - A task can be reassigned only if it is in the started or paused state.
-    - If a task is in the `paused state` then it can simply be reassigned.
-    - If a task is in the `started state` then the reassignment logic should first pause it before reassigning it. In this way the time tracking logic can calculate the worked time for the original user assigned to the task.

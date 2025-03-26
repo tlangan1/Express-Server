@@ -18,18 +18,13 @@ webpush.setVapidDetails(
   vapidKeys.privateKey
 );
 
-export async function sendWebPushes(operationType, item_id, itemType) {
+export async function sendWebPushes(sentData) {
   var subscriptions = await getSubscription();
-  var data = await getItem(itemType, { item_id: item_id });
-  var message = `${itemType} with name(id) [${
-    data.item_name
-  }(${item_id})] was ${conjugateVerb(
-    operationType == "pause"
-      ? data.paused_dtm == null
-        ? "restart"
-        : "pause"
-      : operationType
-  )}`;
+  var returnedData = await getItem(sentData.item_type, {
+    item_id: sentData.item_id,
+  });
+  returnedData.update_type = sentData.update_type;
+  returnedData.item_id = sentData.item_id;
 
   subscriptions.forEach((subscription) => {
     const push_subscription = {
@@ -41,8 +36,7 @@ export async function sendWebPushes(operationType, item_id, itemType) {
       },
     };
 
-    //   if (push_subscription.keys.auth == "91u78HuSRvE009UoiBSkdA")
-    sendWebPush(push_subscription, JSON.stringify(message));
+    sendWebPush(push_subscription, JSON.stringify(returnedData));
   });
 }
 
@@ -73,21 +67,4 @@ const sendWebPush = async (subscription, dataToSend) => {
 
 async function getSubscription() {
   return await getItems("subscriptions", `''`);
-}
-
-function conjugateVerb(verb) {
-  switch (verb) {
-    case "pause":
-      return "paused";
-    case "restart":
-      return "restarted";
-    case "start":
-      return "started";
-    case "complete":
-      return "completed";
-    case "cancel_delete":
-      return "canceled/deleted";
-    default:
-      return verb;
-  }
 }

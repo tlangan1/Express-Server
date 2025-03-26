@@ -98,7 +98,10 @@ export async function updateItem(itemType, data, sendWebPush) {
                 `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
               );
             } else {
-              if (sendWebPush) sendWebPushes(itemType, data.item_id, itemType);
+              if (sendWebPush) {
+                data.item_type = itemType;
+                sendWebPushes(data);
+              }
               return resolve(rows);
             }
           }

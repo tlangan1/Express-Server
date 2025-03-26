@@ -678,3 +678,51 @@ Call p_update_item(?, ?)
 ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/14/2025, 11:07:28 AM
+Call p_add_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'note' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/14/2025, 11:09:50 AM
+Call p_add_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'note' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/20/2025, 6:14:42 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/20/2025, 6:17:17 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/20/2025, 6:18:38 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'user_login_id' cannot be null"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/24/2025, 8:26:53 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Unknown column 'user_login_id' in 'where clause'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/24/2025, 8:29:20 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Column 'task_id' in field list is ambiguous"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/24/2025, 8:29:52 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Result consisted of more than one row"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
