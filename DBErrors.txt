@@ -726,3 +726,195 @@ Call p_update_item(?, ?)
 ER_SIGNAL_EXCEPTION: "Result consisted of more than one row"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/26/2025, 10:56:55 AM
+Call p_add_item(?, ?)
+ER_DATA_TOO_LONG: Data too long for column 'error_event_information' at row 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 7:13:03 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Unknown column 'user_login_id' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 7:17:00 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Unknown column 'user_login_id' in 'field list'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 7:28:26 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Duplicate entry '70' for key 'stacked_task.PRIMARY'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 7:37:59 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Duplicate entry '80' for key 'stacked_task.PRIMARY'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 7:50:46 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Unknown column 'task_id' in 'where clause'"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 7:56:29 AM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 8:02:04 AM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 8:04:39 AM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/27/2025, 8:15:58 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: "Table 'life_helper.stacked_task' doesn't exist"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/28/2025, 1:27:45 PM
+Call p_get_items(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'tu.order_id' in 'order clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/28/2025, 1:28:22 PM
+Call p_get_items(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'tu.order_id' in 'order clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/28/2025, 1:31:38 PM
+Call p_get_items(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'tu.order_id' in 'order clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/28/2025, 1:32:19 PM
+Call p_get_items(?, ?)
+ER_NO_SUCH_TABLE: Table 'test_life_helper.t1' doesn't exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/28/2025, 1:33:04 PM
+Call p_get_items(?, ?)
+ER_NO_SUCH_TABLE: Table 'test_life_helper.t1' doesn't exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/28/2025, 1:33:43 PM
+Call p_get_items(?, ?)
+ER_NO_SUCH_TABLE: Table 'test_life_helper.t1' doesn't exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/28/2025, 1:52:02 PM
+Call p_get_items(?, ?)
+ER_NO_SUCH_TABLE: Table 'test_life_helper.t1' doesn't exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/28/2025, 1:54:01 PM
+Call p_get_items(?, ?)
+ER_NO_SUCH_TABLE: Table 'test_life_helper.t1' doesn't exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/29/2025, 6:51:11 AM
+Call p_get_items(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'tu.order_id' in 'order clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/29/2025, 6:56:37 AM
+Call p_get_items(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'tu.order_id' in 'order clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/29/2025, 6:57:02 AM
+Call p_get_items(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'tu.order_id' in 'order clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 9:02:48 AM
+Call p_update_item(?, ?)
+ER_COND_ITEM_TOO_LONG: Data too long for condition item 'MESSAGE_TEXT'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 10:56:30 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 36 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 11:10:55 AM
+Call p_get_items(?, ?)
+ER_TOO_MANY_ROWS: Result consisted of more than one row
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 11:11:33 AM
+Call p_get_items(?, ?)
+ER_TOO_MANY_ROWS: Result consisted of more than one row
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 2:57:43 PM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 2:58:51 PM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 3:02:10 PM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 3:05:17 PM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 3:22:27 PM
+Call p_add_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 3:23:19 PM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'order_id' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 3:24:18 PM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'order_id' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
