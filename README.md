@@ -15,8 +15,6 @@
 
 ## Notes
 
-- See [this](https://dev.to/kamilrashidev/three-ways-to-enable-hot-reloading-in-express-js-796) to enable HMR in native ExpressJS
-  - Note, when I to install the package for the native ExpressJS solution I got `express.js-hmr - Not found`
 - For information on CORS package for and express look [here](https://expressjs.com/en/resources/middleware/cors.html).
 
 ## Use
@@ -55,11 +53,10 @@
 
 ### Get Routes
 
-- To get a list of zero or more objectives, goals, tasks, notes or web push subscriptions
-  - route: '/[objectives|goals|tasks|notes|wbs]?params={"parent_id":0,"completed_items":"no","started_items":"either","deleted_items":"no"}'
+- To get a list of zero or more objectives, goals, tasks, web push subscriptions, notes, thoughts or a single user login.
+  - route: '/[objectives|goals|tasks|subscriptions|notes|thoughts|user_login]?params={"parent_id":0,"completed_items":"no","started_items":"either","deleted_items":"no"}'
   - stored procedure: p_get_items
   - response: A JSON object containing and array of items each containing all the columns in the appropriate table.
-- `THIS ROUTE IS NOT SUPPORTED YET; however, the stored procedure is used by web push`
 - To get one objective, goal or task
   - route: '/[objective|goal|task]?params={"item_id":[integer]}'
   - stored procedure: p_get_items
