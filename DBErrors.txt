@@ -918,3 +918,57 @@ Call p_add_item(?, ?)
 ER_BAD_NULL_ERROR: Column 'order_id' cannot be null
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 4:19:09 PM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3/31/2025, 4:31:46 PM
+Call p_add_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/1/2025, 10:35:29 AM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 37 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/2/2025, 11:15:20 AM
+Call p_add_item(?, ?)
+ER_BAD_NULL_ERROR: Column 'thought' cannot be null
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/2/2025, 1:51:58 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 37 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/2/2025, 1:54:54 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 38 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/3/2025, 3:02:59 PM
+4/3/2025, 3:02:59 PM
+Call p_get_items(?, ?)
+ER_NO_DB_ERROR: No database selected
+Call p_get_items(?, ?)
+ER_NO_DB_ERROR: No database selected
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/3/2025, 3:12:20 PM
+Call p_get_items(?, ?)
+ER_NO_DB_ERROR: No database selected
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
