@@ -3,6 +3,8 @@
 import { networkInterfaces } from "os";
 
 const nets = networkInterfaces();
+import { argv } from "node:process";
+
 export const network_addresses = Object.create(null); // Or just '{}', an empty object
 
 for (const name of Object.keys(nets)) {
@@ -18,3 +20,14 @@ for (const name of Object.keys(nets)) {
     }
   }
 }
+
+export var environment;
+
+// The port is passed in as command line arguments
+argv.forEach((val, index) => {
+  console.log(`${index}: ${val}`);
+  if (val.includes("environment=")) {
+    environment = val.substring(val.indexOf("=") + 1);
+    console.log(`Environment is ${environment}`);
+  }
+});

@@ -3,8 +3,11 @@
 import { createPool } from "mysql";
 import fsSync from "fs";
 import fsAsync from "fs/promises";
+import { environment } from "./helper_functions.js";
 
 import { sendWebPushes } from "./web_push.js";
+
+// console.log("Environment is ", environment);
 
 var DBErrorsPath = "DBErrors.txt";
 if (!fsSync.existsSync(DBErrorsPath)) {
@@ -15,11 +18,13 @@ if (!fsSync.existsSync(DBErrorsPath)) {
 var configPath = "./config.json";
 var config = JSON.parse(fsSync.readFileSync(configPath, { encoding: "utf8" }));
 
+var database = config[environment].database;
+
 var pool = createPool({
   host: "localhost",
   user: "tlangan",
   password: "-UnderAWhiteSky1",
-  database: config.database, //schema
+  database: database, //schema
   // Remember, connections are lazily created
   connectionLimit: 10,
 });

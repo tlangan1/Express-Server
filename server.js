@@ -15,20 +15,24 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 
 import { getItems, updateItem, addItem, checkItem } from "./db.js";
-import { network_addresses } from "./network_addresses.js";
+import { network_addresses, environment } from "./helper_functions.js";
+
+console.log("Environment is ", environment);
 
 var configPath = "./config.json";
 var config = JSON.parse(fsSync.readFileSync(configPath, { encoding: "utf8" }));
 
 const app = express();
-const port = 3001;
+
+var port = config[environment].port;
+
 var cors_origin_array = [];
 
 // Without DNS resolution, hardcoding of the IP address of
 // the machine hosting the web server is the best practice.
 // You could use the hosts file on every device that needs to
 // access the web server but that is even worse than hardcoding.
-cors_origin_array.push(config.web_server_url);
+cors_origin_array.push(`${config.web_server_url}:${port - 1}`);
 
 // HTTPS related code
 const options = {
@@ -150,7 +154,11 @@ app.post("*", (req, res) => {
 
   async function updateItemRoute(payload) {
     try {
-      await updateItem(payload.item_type, payload.data, true);
+      await updateItem(
+        payload.item_type,
+        payload.data,
+        payload.item_type == "thought" ? false : true
+      );
       res.sendStatus(200);
     } catch (err) {
       console.log("DB Error:", err);
