@@ -1,4 +1,7 @@
 {
+  "name": "life-helper-data-server",
+  "version": "0.1.0",
+  "description": "Data Server for Multi-user objective/goal/task management app",
   "type": "module",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -6,6 +9,11 @@
     "express": "^4.18.2",
     "mysql": "^2.18.1",
     "web-push": "^3.6.6"
+  },
+  "scripts-comments": {
+    "start": "Starts nodemon in development mode with debugging enabled",
+    "prod": "Starts nodemon in production mode with debugging enabled",
+    "dev": "Starts nodemon in development mode with debugging enabled"
   },
   "scripts": {
     "start": "nodemon --inspect server.js",

@@ -52,6 +52,7 @@ const sendWebPush = async (subscription, dataToSend) => {
       // and the body = 'push subscription has unsubscribed or expired.\n'
       // then the subscription should be canceled in the database
       // by setting the expired_dtm to the current datetime.
+      // TODO: test this code
       updateItem(
         "web_push_subscription",
         {

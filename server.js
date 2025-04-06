@@ -17,7 +17,7 @@ import bcrypt from "bcrypt";
 import { getItems, updateItem, addItem, checkItem } from "./db.js";
 import { network_addresses, environment } from "./helper_functions.js";
 
-console.log("Environment is ", environment);
+// console.log("Environment is ", environment);
 
 var configPath = "./config.json";
 var config = JSON.parse(fsSync.readFileSync(configPath, { encoding: "utf8" }));
@@ -82,7 +82,7 @@ app.get("*", (req, res) => {
 
   if (req.url == "/data_source") {
     res.json({
-      dataSource: config.database,
+      dataSource: environment,
     });
     return;
   }
