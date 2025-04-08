@@ -972,3 +972,63 @@ Call p_get_items(?, ?)
 ER_NO_DB_ERROR: No database selected
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 8:23:09 AM
+Call p_get_items(?, ?)
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 8:23:52 AM
+Call p_get_items(?, ?)
+ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL' at line 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 9:07:51 AM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 9:08:55 AM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 9:09:10 AM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 9:09:56 AM
+Call p_get_items(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 9:13:09 AM
+Call p_get_items(?, ?)
+ER_DATA_TOO_LONG: Data too long for column 'type' at row 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 9:20:51 AM
+Call p_get_items(?, ?)
+ER_DATA_TOO_LONG: Data too long for column 'type' at row 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 10:57:48 AM
+Call p_get_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/8/2025, 10:59:16 AM
+Call p_get_item(?, ?)
+ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
