@@ -56,7 +56,7 @@ const sendWebPush = async (subscription, dataToSend) => {
       updateItem(
         "web_push_subscription",
         {
-          item_type: "cancel_delete",
+          item_type: "cancel" /* or should it be 'expire' */,
           capability_url: subscription.endpoint,
         },
         false

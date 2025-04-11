@@ -19,15 +19,13 @@
 
 ## Use
 
-- To start the server execute the following command.
-  ```bash
-  node server.jsf
-  ```
 - To start the server in debug mode execute the following command.
   ```bash
-  node --inspect server.js
+  npm run dev_debug (to point to database test_life_helper)
+  or
+  npm run prod_debug (to point to database life_helper)
   ```
-- The server listens on whatever "Wi Fi" address was assigned by the router.
+- The server listens on whatever "Wi Fi" address assigned by the router.
 - The server uses a local MySQL database to store and retrieve data.
 
 ## CORS
@@ -54,7 +52,7 @@
 ### Get Routes
 
 - To get a list of zero or more objectives, goals, tasks, web push subscriptions, notes, thoughts or a single user login.
-  - route: '/[objectives|goals|tasks|subscriptions|notes|thoughts|user_login]?params={"parent_id":0,"completed_items":"no","started_items":"either","deleted_items":"no"}'
+  - route: '/[objectives|goals|tasks|subscriptions|notes|thoughts|user_login]?params={"parent_id":0,"completed_items":"no","started_items":"either","aborted_items":"no"}'
   - stored procedure: p_get_items
   - response: A JSON object containing and array of items each containing all the columns in the appropriate table.
 - To get one objective, goal or task
@@ -129,12 +127,12 @@
       user_login_id: <positive integer>,
     }
     ```
-- To cancel/delete an objective, goal or task:
+- To abort an objective, goal or task:
   - route: `/update/[objective|goal|task]`
   - body:
     ```
     {
-        operation_type: cancel_delete,
+        operation_type: abort,
         item_id: [positive integer]
         user_login_id: <positive integer>,
     }
