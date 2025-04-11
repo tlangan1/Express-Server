@@ -17,8 +17,10 @@
   },
   "scripts": {
     "start": "nodemon --inspect server.js",
-    "prod": "nodemon --inspect server.js environment=prod",
-    "dev": "nodemon --inspect server.js environment=dev"
+    "prod_debug": "nodemon --inspect server.js environment=prod",
+    "dev_debug": "nodemon --inspect server.js environment=dev",
+    "prod_no_debug": "nodemon server.js environment=prod",
+    "dev_no_debug": "nodemon server.js environment=dev"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
