@@ -1032,3 +1032,15 @@ Call p_get_item(?, ?)
 ER_SP_CASE_NOT_FOUND: Case not found for CASE statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/13/2025, 1:08:51 PM
+Call p_get_items(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'aborted_dtm' in 'where clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/13/2025, 1:08:55 PM
+Call p_get_items(?, ?)
+ER_BAD_FIELD_ERROR: Unknown column 'aborted_dtm' in 'where clause'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
