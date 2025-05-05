@@ -1,6 +1,6 @@
 import webpush from "web-push";
 
-import { updateItem, getItems, getItem } from "./db.js";
+import { updateItem, getItems } from "./db.js";
 
 /* *** Web push related code  *** */
 // cSpell:disable
@@ -20,11 +20,11 @@ webpush.setVapidDetails(
 
 export async function sendWebPushes(sentData) {
   var subscriptions = await getSubscription();
-  var returnedData = await getItem(sentData.item_type, {
+  var returnedData = await getItems(sentData.item_type, {
     item_id: sentData.item_id,
   });
-  returnedData.update_type = sentData.update_type;
-  returnedData.item_id = sentData.item_id;
+  returnedData[0].update_type = sentData.update_type;
+  returnedData[0].item_id = sentData.item_id;
 
   subscriptions.forEach((subscription) => {
     const push_subscription = {
@@ -36,7 +36,7 @@ export async function sendWebPushes(sentData) {
       },
     };
 
-    sendWebPush(push_subscription, JSON.stringify(returnedData));
+    sendWebPush(push_subscription, JSON.stringify(returnedData[0]));
   });
 }
 
