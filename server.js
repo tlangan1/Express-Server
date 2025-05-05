@@ -14,7 +14,7 @@ import fsSync from "fs";
 import cors from "cors";
 import bcrypt from "bcrypt";
 
-import { getItems, getItem, updateItem, addItem, checkItem } from "./db.js";
+import { getItems, updateItem, addItem, checkItem } from "./db.js";
 import { network_addresses, environment } from "./helper_functions.js";
 
 // console.log("Environment is ", environment);
@@ -77,40 +77,6 @@ const server = https.createServer(options, app);
 
 const paramsDelimiter = "?params=";
 
-// app.get("*", (req, res) => {
-//   console.log(`Server Get Request (${new Date()}) url: is ${req.url}`);
-
-//   if (req.url == "/data_source") {
-//     res.json({
-//       dataSource: environment,
-//     });
-//     return;
-//   }
-//   getItemsRoute({
-//     item_type: req.url.substring(1, req.url.indexOf(paramsDelimiter)),
-//     queryParameters: JSON.parse(
-//       decodeURI(
-//         req.url.substring(
-//           req.url.indexOf(paramsDelimiter) + paramsDelimiter.length
-//         )
-//       )
-//     ),
-//   });
-
-//   async function getItemsRoute(params) {
-//     try {
-//       res.json(await getItems(params.item_type, params.queryParameters));
-//     } catch (err) {
-//       console.log("DB Error:", err);
-//       res.statusMessage = err;
-//       res.sendStatus(404);
-//     }
-//   }
-// });
-
-// Here is the new route structure
-// get_item/item_type?params={queryParameters}
-// get_items/item_type?params={queryParameters}
 app.get("*", (req, res) => {
   console.log(`Server Get Request (${new Date()}) url: is ${req.url}`);
   var { itemType, operationType } = parseRoute(req.url);
@@ -123,18 +89,6 @@ app.get("*", (req, res) => {
   }
 
   switch (operationType) {
-    case "get_item":
-      getItemRoute({
-        item_type: itemType,
-        queryParameters: JSON.parse(
-          decodeURI(
-            req.url.substring(
-              req.url.indexOf(paramsDelimiter) + paramsDelimiter.length
-            )
-          )
-        ),
-      });
-      break;
     case "get_items":
       getItemsRoute({
         item_type: itemType,
@@ -157,16 +111,6 @@ app.get("*", (req, res) => {
   async function getItemsRoute(params) {
     try {
       res.json(await getItems(params.item_type, params.queryParameters));
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.sendStatus(404);
-    }
-  }
-
-  async function getItemRoute(params) {
-    try {
-      res.json(await getItem(params.item_type, params.queryParameters));
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;

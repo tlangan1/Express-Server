@@ -1044,3 +1044,51 @@ Call p_get_items(?, ?)
 ER_BAD_FIELD_ERROR: Unknown column 'aborted_dtm' in 'where clause'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/13/2025, 1:59:19 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 40 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/13/2025, 2:03:46 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 41 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/13/2025, 2:05:40 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 42 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/13/2025, 2:07:56 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 43 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/13/2025, 2:08:08 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 44 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/13/2025, 2:08:31 PM
+Call p_update_item(?, ?)
+ER_SIGNAL_EXCEPTION: See sql_error with id: 45 for more information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5/5/2025, 9:32:00 AM
+Call p_get_item(?, ?)
+ER_SP_DOES_NOT_EXIST: PROCEDURE test_life_helper.p_get_item does not exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5/5/2025, 9:42:29 AM
+Call p_get_item(?, ?)
+ER_SP_DOES_NOT_EXIST: PROCEDURE test_life_helper.p_get_item does not exist
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
