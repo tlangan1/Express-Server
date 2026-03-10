@@ -48,12 +48,12 @@ export function getItems(itemType, queryString) {
           var now = new Date().toLocaleString();
           appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
           reject(
-            `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+            `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
           );
           return;
         }
         resolve(rows[0]);
-      }
+      },
     );
   }
 }
@@ -72,12 +72,12 @@ export function getItem(itemType, queryString) {
           var now = new Date().toLocaleString();
           appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
           reject(
-            `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+            `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
           );
           return;
         }
         resolve(rows[0][0]);
-      }
+      },
     );
   }
 }
@@ -100,7 +100,7 @@ export async function updateItem(itemType, data, sendWebPush) {
               var now = new Date().toLocaleString();
               appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
               reject(
-                `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+                `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
               );
             } else {
               if (sendWebPush) {
@@ -109,7 +109,7 @@ export async function updateItem(itemType, data, sendWebPush) {
               }
               return resolve(rows);
             }
-          }
+          },
         );
         con.release(); // releasing connection to pool
       }
@@ -135,13 +135,13 @@ export async function addItem(itemType, data) {
               var now = new Date().toLocaleString();
               appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
               reject(
-                `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+                `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
               );
             } else {
               // con.release(); // releasing connection to pool
               return resolve(rows);
             }
-          }
+          },
         );
         con.release(); // releasing connection to pool
       }
@@ -164,7 +164,7 @@ export async function checkItem(itemType, data) {
             var now = new Date().toLocaleString();
             appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
             reject(
-              `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`
+              `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
             );
           } else {
             // con.release(); // releasing connection to pool

@@ -13,6 +13,36 @@
       - [Update routes](#update-routes)
       - [Other routes](#other-routes)
 
+## TODOs
+
+- Migrate from mysql client library to mysql2 client library.
+
+  - I am doing this because of the DB connectivity issue I am currently experiencing as shown below in this excerpt from DBErrors.txt.
+
+    ```
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3/10/2026, 8:33:18 AM
+    Call p_get_items(?, ?)
+    ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ```
+
+    I had this issue before but I used a less appropriate solution at the time. I enabled the use of a conventional username/password authentication method by altering the default authentication configuration of the MySQL server.
+
+  - See [this](https://npm-compare.com/mysql,mysql2) for more information about mysql versus mysql2.
+
+- Steps in this migration.
+  - <input type="checkbox" checked /> Get a plan from Copilot and place it in README-migrate.md.
+  - <input type="checkbox" /> Create a git commit of the current Express Server application.
+  - <input type="checkbox" /> Convert CRLF line endings to LF in all non-binary files.
+  - <input type="checkbox" /> Create a git commit of the current Express Server application.
+  - <input type="checkbox" /> Update the client library.
+  - <input type="checkbox" /> Create a git commit of the updated Express Server application.
+  - <input type="checkbox" /> Replace the callback-based code with async/await syntax.
+  - <input type="checkbox" /> Create a git commit of the updated Express Server application.
+  - <input type="checkbox" /> Look into other enhancements (wins) such as the "automatic parameter binding for prepared statements". Implement whatever enhancements make sense to take advantage of the benefits of the mysql2 client library.
+  - <input type="checkbox" /> Create another git commit of the updated Express Server application.
+
 ## Notes
 
 - For information on CORS package for and express look [here](https://expressjs.com/en/resources/middleware/cors.html).
