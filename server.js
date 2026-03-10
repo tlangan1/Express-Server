@@ -15,7 +15,11 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 
 import { getItems, updateItem, addItem, checkItem } from "./db.js";
-import { network_addresses, environment } from "./helper_functions.js";
+import {
+  network_addresses,
+  environment,
+  operating_system,
+} from "./helper_functions.js";
 
 // console.log("Environment is ", environment);
 
@@ -34,31 +38,53 @@ var cors_origin_array = [];
 // access the web server but that is even worse than hardcoding.
 cors_origin_array.push(`${config.web_server_url}:${port - 1}`);
 
+// TODO: simplify this operating system related code
+// TODO: test this new code
 // HTTPS related code
-const options = {
-  key: fsSync.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
-  cert: fsSync.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
-  // Supporting multiple https domains is possible in a single certificate.
-  // For example, to support 192.168.1.10, 192.168.144.1 and 172.22.112.1
-  // you could build a certificate with the following command
-  // *** mkcert 192.168.1.10 192.168.144.1 172.22.112.1 ***
-  // and then, if you name the certificate "combined-key" you could use the
-  // following code to load the certificate
-  // key: fs.readFileSync(`./cert/combined-key.pem`),
-  // cert: fs.readFileSync(`./cert/combined.pem`),
-};
+var options = {};
+if (operating_system == "win32")
+  options = {
+    key: fsSync.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}-key.pem`),
+    cert: fsSync.readFileSync(`./cert/${network_addresses["Wi-Fi"][0]}.pem`),
+    // Supporting multiple https domains is possible in a single certificate.
+    // For example, to support 192.168.1.10, 192.168.144.1 and 172.22.112.1
+    // you could build a certificate with the following command
+    // *** mkcert 192.168.1.10 192.168.144.1 172.22.112.1 ***
+    // and then, if you name the certificate "combined-key" you could use the
+    // following code to load the certificate
+    // key: fs.readFileSync(`./cert/combined-key.pem`),
+    // cert: fs.readFileSync(`./cert/combined.pem`),
+  };
+else if (operating_system == "linux" || operating_system == "darwin")
+  options = {
+    key: fsSync.readFileSync(
+      `./cert/${network_addresses[Object.keys(network_addresses)[0]]}-key.pem`,
+    ),
+    cert: fsSync.readFileSync(
+      `./cert/${network_addresses[Object.keys(network_addresses)[0]]}.pem`,
+    ),
+  };
+else {
+  console.log("Unsupported operating system for HTTPS server.");
+  process.exit(1);
+}
 
+// TODO: test this new code
 // This code is for visual feedback only.
 Object.keys(network_addresses).map((address) => {
   var networkInterfaceDescription;
-  if (address == "Wi-Fi") {
+  if (operating_system == "win32") {
+    if (address == "Wi-Fi") {
+      networkInterfaceDescription =
+        "THIS IS THE IMPORTANT NETWORK INTERFACE, THE WI-FI NETWORK INTERFACE";
+    } else {
+      networkInterfaceDescription = "Network interface for VM on my machine";
+    }
+  } else if (operating_system == "linux" || operating_system == "darwin")
     networkInterfaceDescription =
       "THIS IS THE IMPORTANT NETWORK INTERFACE, THE WI-FI NETWORK INTERFACE";
-  } else {
-    networkInterfaceDescription = "Network interface for VM on my machine";
-  }
   console.log(
-    `${networkInterfaceDescription}: ${network_addresses[address][0]}`
+    `${networkInterfaceDescription}: ${network_addresses[address][0]}`,
   );
 });
 
@@ -70,7 +96,7 @@ app.use(
   //   cors()
   cors({
     origin: cors_origin_array,
-  })
+  }),
 );
 
 const server = https.createServer(options, app);
@@ -95,9 +121,9 @@ app.get("*", (req, res) => {
         queryParameters: JSON.parse(
           decodeURI(
             req.url.substring(
-              req.url.indexOf(paramsDelimiter) + paramsDelimiter.length
-            )
-          )
+              req.url.indexOf(paramsDelimiter) + paramsDelimiter.length,
+            ),
+          ),
         ),
       });
       break;
@@ -162,7 +188,7 @@ app.post("*", (req, res) => {
       await updateItem(
         payload.item_type,
         payload.data,
-        payload.item_type == "thought" ? false : true
+        payload.item_type == "thought" ? false : true,
       );
       res.sendStatus(200);
     } catch (err) {
@@ -179,7 +205,7 @@ app.post("*", (req, res) => {
         const salt = bcrypt.genSaltSync(saltRounds);
         payload.data.hashed_password = bcrypt.hashSync(
           payload.data.password,
-          salt
+          salt,
         );
         delete payload.data.password;
       }
@@ -220,7 +246,7 @@ app.post("*", (req, res) => {
         if (
           bcrypt.compareSync(
             payload.data.password,
-            storedLogin[0].hashed_password
+            storedLogin[0].hashed_password,
           )
         ) {
           delete storedLogin[0].hashed_password;

@@ -1,6 +1,6 @@
 "use strict";
 
-import { networkInterfaces } from "os";
+import { networkInterfaces, platform } from "os";
 
 const nets = networkInterfaces();
 import { argv } from "node:process";
@@ -31,3 +31,5 @@ argv.forEach((val, index) => {
     console.log(`Environment is ${environment}`);
   }
 });
+
+export var operating_system = platform();
