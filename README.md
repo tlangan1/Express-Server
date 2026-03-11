@@ -36,8 +36,8 @@
   - <input type="checkbox" checked /> Create a git commit of the current Express Server application.
   - <input type="checkbox" checked /> Convert CRLF line endings to LF in all non-binary files.
   - <input type="checkbox" checked /> Create a git commit of the current Express Server application.
-  - <input type="checkbox" /> Update the client library.
-  - <input type="checkbox" /> Create a git commit of the updated Express Server application.
+  - <input type="checkbox" checked /> Update the client library by uninstalling mysql and installing mysql2.
+  - <input type="checkbox" checked /> Create a git commit of the updated Express Server application.
   - <input type="checkbox" /> Replace the callback-based code with async/await syntax.
   - <input type="checkbox" /> Create a git commit of the updated Express Server application.
   - <input type="checkbox" /> Look into other enhancements (wins) such as the "automatic parameter binding for prepared statements". Implement whatever enhancements make sense to take advantage of the benefits of the mysql2 client library.

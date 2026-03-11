@@ -1,6 +1,6 @@
 "use strict";
 
-import { createPool } from "mysql";
+import { createPool } from "mysql2";
 import fsSync from "fs";
 import fsAsync from "fs/promises";
 import { environment } from "./helper_functions.js";
@@ -23,7 +23,7 @@ var database = config[environment].database;
 var pool = createPool({
   host: "localhost",
   user: "tlangan",
-  password: "-UnderAWhiteSky1",
+  password: "-UnderSky1",
   database: database, //schema
   // Remember, connections are lazily created
   connectionLimit: 10,
