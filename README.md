@@ -33,9 +33,9 @@
 
 - Steps in this migration.
   - <input type="checkbox" checked /> Get a plan from Copilot and place it in README-migrate.md.
-  - <input type="checkbox" /> Create a git commit of the current Express Server application.
-  - <input type="checkbox" /> Convert CRLF line endings to LF in all non-binary files.
-  - <input type="checkbox" /> Create a git commit of the current Express Server application.
+  - <input type="checkbox" checked /> Create a git commit of the current Express Server application.
+  - <input type="checkbox" checked /> Convert CRLF line endings to LF in all non-binary files.
+  - <input type="checkbox" checked /> Create a git commit of the current Express Server application.
   - <input type="checkbox" /> Update the client library.
   - <input type="checkbox" /> Create a git commit of the updated Express Server application.
   - <input type="checkbox" /> Replace the callback-based code with async/await syntax.

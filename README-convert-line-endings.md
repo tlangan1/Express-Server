@@ -19,7 +19,9 @@ Use a short‑lived branch to keep the change isolated.
 
 Run a MIME‑type filter so binaries are skipped:
 
-- `find . -type f -exec file --mime-type {} + | awk -F: '$2 ~ /text/ {print $1}' | xargs dos2unix`
+```bash
+find . -path './.git' -o -path './.git/*' -prune -o -path ./node_modules -prune -o -path ./cert -prune -o -type f -exec file --mime-type {} + | awk -F: '$2 ~ /(text|application\/(json|javascript|xml|x-yaml))/ {print $1}' | xargs dos2unix
+```
 
 ### 3) Review the impact
 
