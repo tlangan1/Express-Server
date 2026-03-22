@@ -14,7 +14,7 @@ import fsSync from "fs";
 import cors from "cors";
 import bcrypt from "bcrypt";
 
-import { getItems, updateItem, addItem, checkItem } from "./db.js";
+import { getItems, updateItem, addItem } from "./db.js";
 import {
   network_addresses,
   environment,
@@ -167,9 +167,9 @@ app.post("*", (req, res) => {
       checkRoute({ item_type: itemType, data: req.body });
       break;
 
-    case "set":
-      setRoute({ item_type: itemType, data: req.body.database });
-      break;
+    // case "set":
+    //   setRoute({ item_type: itemType, data: req.body.database });
+    //   break;
 
     default:
       res.statusMessage = `Endpoint ${req.url} not supported`;
@@ -237,36 +237,35 @@ app.post("*", (req, res) => {
 
   async function checkRoute(payload) {
     try {
-      /* *** Most check routes will be handled in the context of a stored procedure  *** */
-      /* *** but the user_login check should be handled in the context of the server *** */
+      /* *** The user_login check must be handled in the context of the server       *** */
       /* *** to protect the actual password as much as possible.                     *** */
-      if (payload.item_type == "user_login") {
-        var storedLogin = await getItems(payload.item_type, payload.data);
-        console.log("User data is: ", storedLogin);
-        if (
-          bcrypt.compareSync(
-            payload.data.password,
-            storedLogin[0].hashed_password,
-          )
-        ) {
-          delete storedLogin[0].hashed_password;
-          res.json({
-            success: true,
-            ...storedLogin[0],
-          });
-        } else {
-          res.json({ result: "failure" });
-        }
+
+      /* *** As of 3/13/2026 only the user_login check route is used.                *** */
+      // if (payload.item_type == "user_login") {
+      var storedLogin = await getItems(payload.item_type, payload.data);
+      console.log("User data is: ", storedLogin);
+      if (
+        bcrypt.compareSync(
+          payload.data.password,
+          storedLogin[0].hashed_password,
+        )
+      ) {
+        delete storedLogin[0].hashed_password;
+        res.json({
+          success: true,
+          ...storedLogin[0],
+        });
       } else {
-        var result = await checkItem(payload.item_type, payload.data);
-        res.json(result[0][0]);
+        res.json({ result: "failure" });
       }
-      //   res.sendStatus(200);
+      // } else {
+      //   var result = await checkItem(payload.item_type, payload.data);
+      //   res.json(result[0][0]);
+      // }
     } catch (err) {
       console.log("DB Error:", err);
       res.statusMessage = err;
       res.json({ result: "failure" });
-      //   res.sendStatus(404);
     }
   }
 });
