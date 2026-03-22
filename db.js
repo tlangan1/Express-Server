@@ -29,153 +29,82 @@ var pool = createPool({
   connectionLimit: 10,
 });
 
+// const checkProcedureByItemType = {
+//   // Add supported check routes here as they are implemented.
+//   // Keep user_login out of this map because it is checked in server.js.
+//   undefined: "Call p_check_undefined (?)",
+// };
+
 /* *** *** */
 // See https://itnext.io/avoid-these-mistakes-when-using-database-connection-pools-ce2368beab51
 // for more information on implicit versus explicit connection access.
 /* *** *** */
 
 // In getItems I am using implicit connection access
-export function getItems(itemType, queryString) {
-  return new Promise(func);
-
-  function func(resolve, reject) {
-    var dbCall = "Call p_get_items(?, ?)";
-    pool.query(
-      dbCall,
-      [itemType, JSON.stringify(queryString)],
-      function (error, rows) {
-        if (error) {
-          var now = new Date().toLocaleString();
-          appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
-          reject(
-            `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
-          );
-          return;
-        }
-        resolve(rows[0]);
-      },
-    );
+export async function getItems(itemType, queryString) {
+  var dbCall = "Call p_get_items(?, ?)";
+  try {
+    const [rows] = await pool
+      .promise()
+      .execute(dbCall, [itemType, JSON.stringify(queryString)]);
+    return rows[0];
+  } catch (error) {
+    var now = new Date().toLocaleString();
+    appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+    throw `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`;
   }
 }
 
-// In getItem I am using implicit connection access
-export function getItem(itemType, queryString) {
-  return new Promise(func);
-
-  function func(resolve, reject) {
-    var dbCall = "Call p_get_item(?, ?)";
-    pool.query(
-      dbCall,
-      [itemType, JSON.stringify(queryString)],
-      function (error, rows) {
-        if (error) {
-          var now = new Date().toLocaleString();
-          appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
-          reject(
-            `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
-          );
-          return;
-        }
-        resolve(rows[0][0]);
-      },
-    );
-  }
-}
-
-// In updateItem I am using explicit connection access
+// In updateItem I am using implicit connection access
 export async function updateItem(itemType, data, sendWebPush) {
-  return new Promise(fn);
-
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      if (err) {
-        return reject(err);
-      } else {
-        var dbCall = "Call p_update_item(?, ?)";
-        con.query(
-          dbCall,
-          [itemType, JSON.stringify(data)],
-          function (error, rows) {
-            if (error) {
-              var now = new Date().toLocaleString();
-              appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
-              reject(
-                `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
-              );
-            } else {
-              if (sendWebPush) {
-                data.item_type = itemType;
-                sendWebPushes(data);
-              }
-              return resolve(rows);
-            }
-          },
-        );
-        con.release(); // releasing connection to pool
-      }
-    }); // getConnection
+  var dbCall = "Call p_update_item(?, ?)";
+  try {
+    const [rows] = await pool
+      .promise()
+      .execute(dbCall, [itemType, JSON.stringify(data)]);
+    if (sendWebPush) {
+      data.item_type = itemType;
+      sendWebPushes(data);
+    }
+    return rows;
+  } catch (error) {
+    var now = new Date().toLocaleString();
+    appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+    throw `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`;
   }
 }
 
-// In updateItem I am using explicit connection access
+// In addItem I am using implicit connection access
 export async function addItem(itemType, data) {
-  return new Promise(fn);
-
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      if (err) {
-        return reject(err);
-      } else {
-        var dbCall = "Call p_add_item(?, ?)";
-        con.query(
-          dbCall,
-          [itemType, JSON.stringify(data)],
-          function (error, rows) {
-            if (error) {
-              var now = new Date().toLocaleString();
-              appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
-              reject(
-                `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
-              );
-            } else {
-              // con.release(); // releasing connection to pool
-              return resolve(rows);
-            }
-          },
-        );
-        con.release(); // releasing connection to pool
-      }
-    }); // getConnection
+  var dbCall = "Call p_add_item(?, ?)";
+  try {
+    const [rows] = await pool
+      .promise()
+      .execute(dbCall, [itemType, JSON.stringify(data)]);
+    return rows;
+  } catch (error) {
+    var now = new Date().toLocaleString();
+    appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+    throw `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`;
   }
 }
 
-// In checkItem I am using explicit connection access
-export async function checkItem(itemType, data) {
-  return new Promise(fn);
+// In checkItem I am using implicit connection access
+// export async function checkItem(itemType, data) {
+//   var dbCall = checkProcedureByItemType[itemType];
+//   if (!dbCall) {
+//     throw `Unsupported check item type: ${itemType}`;
+//   }
 
-  function fn(resolve, reject) {
-    pool.getConnection(function (err, con) {
-      if (err) {
-        return reject(err);
-      } else {
-        var dbCall = `Call p_check_${itemType} (?)`;
-        con.query(dbCall, [JSON.stringify(data)], function (error, rows) {
-          if (error) {
-            var now = new Date().toLocaleString();
-            appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
-            reject(
-              `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`,
-            );
-          } else {
-            // con.release(); // releasing connection to pool
-            return resolve(rows);
-          }
-        });
-        con.release(); // releasing connection to pool
-      }
-    }); // getConnection
-  }
-}
+//   try {
+//     const [rows] = await pool.promise().execute(dbCall, [JSON.stringify(data)]);
+//     return rows;
+//   } catch (error) {
+//     var now = new Date().toLocaleString();
+//     appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
+//     throw `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`;
+//   }
+// }
 
 /* *** Helper Functions *** */
 
