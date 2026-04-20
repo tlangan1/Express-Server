@@ -256,7 +256,7 @@ app.post("*", (req, res) => {
           ...storedLogin[0],
         });
       } else {
-        res.json({ result: "failure" });
+        res.json({ success: false });
       }
       // } else {
       //   var result = await checkItem(payload.item_type, payload.data);
