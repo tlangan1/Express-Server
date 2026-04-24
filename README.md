@@ -82,11 +82,11 @@
 ### Get Routes
 
 - To get a list of zero or more objectives, goals, tasks, web push subscriptions, notes, thoughts or a single user login.
-  - route: '/[objectives|goals|tasks|subscriptions|notes|thoughts|user_login]?params={"parent_id":0,"completed_items":"no","started_items":"either","canceled_items":"no"}'
+  - route: '/get_items/[objectives|goals|tasks|subscriptions|notes|thoughts|user_login|search]?params={"parent_id":0,"completed_items":"no","started_items":"either","canceled_items":"no"}'
   - stored procedure: p_get_items
   - response: A JSON object containing and array of items each containing all the columns in the appropriate table.
-- To get one objective, goal or task
-  - route: '/[objective|goal|task]?params={"item_id":[integer]}'
+- To get one task (as of 04-24-2026 retrieving one objective or goal is not supported)
+  - route: '/[task]?params={"item_id":[integer]}'
   - stored procedure: p_get_items
   - response from database: A JSON object containing all the columns in the appropriate table.
   - response to request: The response from the database.

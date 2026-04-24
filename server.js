@@ -103,111 +103,211 @@ const server = https.createServer(options, app);
 
 const paramsDelimiter = "?params=";
 
-app.get("*", (req, res) => {
-  console.log(`Server Get Request (${new Date()}) url: is ${req.url}`);
-  var { itemType, operationType } = parseRoute(req.url);
-
-  if (itemType == "data_source") {
-    res.json({
-      dataSource: environment,
-    });
-    return;
-  }
-
-  switch (operationType) {
-    case "get_items":
-      getItemsRoute({
-        item_type: itemType,
-        queryParameters: JSON.parse(
-          decodeURI(
-            req.url.substring(
-              req.url.indexOf(paramsDelimiter) + paramsDelimiter.length,
-            ),
-          ),
-        ),
-      });
-      break;
-
-    default:
-      res.statusMessage = `Endpoint ${req.url} not supported`;
-      res.sendStatus(404);
-      break;
-  }
-
-  async function getItemsRoute(params) {
-    try {
-      res.json(await getItems(params.item_type, params.queryParameters));
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.sendStatus(404);
-    }
-  }
-});
-
-app.post("*", (req, res) => {
-  console.log("Server Post Request:", "url is ", req.url, "body is", req.body);
-  var { itemType, operationType } = parseRoute(req.url);
-
-  var payload = {
-    // operation_type: operationType,
-    item_type: itemType,
-    data: req.body,
-    origin: req.headers.origin,
+// This pattern for handling async errors in express routes is from the express documentation
+// https://expressjs.com/en/guide/error-handling.html#async-error-handling
+// This pattern is much more elegant than defining try-catch blocks in every route
+//
+// This function is defined here so that it can be used in all the routes defined in this file.
+// As of 4/22/2026 it is only used in the two routes defined in this file, app.get and app.post,
+// but it could be used in any future routes that need to handle async errors.
+// It is a higher order function that takes an async function and returns a new function
+// that wraps the async function in a try-catch block and passes any errors to the next middleware
+// (the error handling middleware defined at the end of the file).
+//
+// This pattern is necessary because express does not catch errors thrown in async functions
+// and will not pass them to the error handling middleware unless they are passed to the next function.
+// Hence, the .catch(next) is only called if there is an error thrown in an async function.
+function asyncHandler(fn) {
+  return function wrapped(req, res, next) {
+    Promise.resolve(fn(req, res, next)).catch(next);
   };
+}
 
-  switch (operationType) {
-    case "add":
-      addItemRoute(payload);
-      break;
-    case "update":
-      updateItemRoute(payload);
-      break;
-    case "check":
-      checkRoute({ item_type: itemType, data: req.body });
-      break;
+app.get(
+  "*",
+  asyncHandler(async (req, res) => {
+    console.log(`Server Get Request (${new Date()}) url: is ${req.url}`);
 
-    // case "set":
-    //   setRoute({ item_type: itemType, data: req.body.database });
-    //   break;
-
-    default:
-      res.statusMessage = `Endpoint ${req.url} not supported`;
-      res.sendStatus(404);
-      break;
-  }
-
-  async function setRoute(payload) {
-    config.database = payload.data;
-    fsSync.writeFileSync(configPath, JSON.stringify(config, null, 2));
-    res.sendStatus(200);
-  }
-
-  async function updateItemRoute(payload) {
-    try {
-      await updateItem(
-        payload.item_type,
-        payload.data,
-        payload.item_type == "thought" ? false : true,
-      );
-      res.sendStatus(200);
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.sendStatus(404);
+    if (req.path == "/" || req.path == "/favicon.ico") {
+      res.sendStatus(204);
+      return;
     }
-  }
 
-  async function addItemRoute(payload) {
-    try {
+    var { itemType, operationType } = parseRoute(req.url);
+
+    if (!itemType || !operationType) {
+      res.status(404).json({
+        error: `Endpoint ${req.url} not supported`,
+      });
+      return;
+    }
+
+    if (itemType == "data_source") {
+      res.json({
+        dataSource: environment,
+      });
+      return;
+    }
+
+    switch (operationType) {
+      case "get_items": {
+        if (!req.url.includes(paramsDelimiter)) {
+          res.status(400).json({
+            error: "Missing params query payload",
+          });
+          return;
+        }
+
+        var queryParameters;
+        try {
+          queryParameters = JSON.parse(decodeURI(req.query.params));
+        } catch (_err) {
+          res.status(400).json({
+            error: "Malformed params JSON",
+          });
+          return;
+        }
+
+        // TODO: Protect against unsupported "get_items" routes.
+        switch (itemType) {
+          case "objectives":
+          case "goals":
+          case "tasks":
+          case "task":
+          case "subscriptions":
+          case "notes":
+          case "thoughts":
+          case "user_login":
+          case "user_logins":
+          case "search":
+            break;
+          default:
+            res.status(400).json({
+              error: `Unsupported item type for get_items: ${itemType}`,
+            });
+            return;
+        }
+
+        var items = await getItems(itemType, queryParameters);
+        res.json(items);
+        return;
+      }
+
+      default:
+        res.status(404).json({
+          error: `Endpoint ${req.url} not supported`,
+        });
+        return;
+    }
+  }),
+);
+
+app.post(
+  "*",
+  asyncHandler(async (req, res) => {
+    console.log(
+      "Server Post Request:",
+      "url is ",
+      req.url,
+      "body is",
+      req.body,
+    );
+    var { itemType, operationType } = parseRoute(req.url);
+
+    if (!itemType || !operationType) {
+      res.status(404).json({
+        error: `Endpoint ${req.url} not supported`,
+      });
+      return;
+    }
+
+    var payload = {
+      item_type: itemType,
+      data: req.body,
+      origin: req.headers.origin,
+    };
+
+    function isObject(value) {
+      return (
+        value !== null && typeof value == "object" && !Array.isArray(value)
+      );
+    }
+
+    switch (operationType) {
+      case "add":
+        if (!isObject(payload.data)) {
+          res.status(400).json({
+            error: "Request body must be a JSON object",
+          });
+          return;
+        }
+        if (
+          payload.item_type == "user_login" &&
+          typeof payload.data.password != "string"
+        ) {
+          res.status(400).json({
+            error: "Missing required field: password",
+          });
+          return;
+        }
+        await addItemRoute(payload);
+        res.sendStatus(200);
+        return;
+      case "update":
+        if (!isObject(payload.data)) {
+          res.status(400).json({
+            error: "Request body must be a JSON object",
+          });
+          return;
+        }
+        await updateItemRoute(payload);
+        res.sendStatus(200);
+        return;
+      case "check":
+        if (!isObject(req.body)) {
+          res.status(400).json({
+            error: "Request body must be a JSON object",
+          });
+          return;
+        }
+        if (typeof req.body.password != "string") {
+          res.status(400).json({
+            error: "Missing required field: password",
+          });
+          return;
+        }
+        await checkRoute({ item_type: itemType, data: req.body });
+        return;
+
+      default:
+        res.status(404).json({
+          error: `Endpoint ${req.url} not supported`,
+        });
+        return;
+    }
+
+    async function setRoute(routePayload) {
+      config.database = routePayload.data;
+      fsSync.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    }
+
+    async function updateItemRoute(routePayload) {
+      await updateItem(
+        routePayload.item_type,
+        routePayload.data,
+        routePayload.item_type == "thought" ? false : true,
+      );
+    }
+
+    async function addItemRoute(routePayload) {
       var saltRounds = 10;
-      if (payload.item_type == "user_login") {
+      if (routePayload.item_type == "user_login") {
         const salt = bcrypt.genSaltSync(saltRounds);
-        payload.data.hashed_password = bcrypt.hashSync(
-          payload.data.password,
+        routePayload.data.hashed_password = bcrypt.hashSync(
+          routePayload.data.password,
           salt,
         );
-        delete payload.data.password;
+        delete routePayload.data.password;
       }
 
       // The "domain" does not have a purpose in a production environment
@@ -222,31 +322,30 @@ app.post("*", (req, res) => {
       // to support multiple web applications on different domains,
       // knowing the domain associated with web push subscriptions
       // might be helpful.
-      if (payload.item_type == "web_push_subscription") {
-        payload.data.domain = payload.origin;
+      if (routePayload.item_type == "web_push_subscription") {
+        routePayload.data.domain = routePayload.origin;
       }
 
-      await addItem(payload.item_type, payload.data);
-      res.sendStatus(200);
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.sendStatus(404);
+      await addItem(routePayload.item_type, routePayload.data);
     }
-  }
 
-  async function checkRoute(payload) {
-    try {
+    async function checkRoute(routePayload) {
       /* *** The user_login check must be handled in the context of the server       *** */
       /* *** to protect the actual password as much as possible.                     *** */
-
-      /* *** As of 3/13/2026 only the user_login check route is used.                *** */
-      // if (payload.item_type == "user_login") {
-      var storedLogin = await getItems(payload.item_type, payload.data);
+      var storedLogin = await getItems(
+        routePayload.item_type,
+        routePayload.data,
+      );
       console.log("User data is: ", storedLogin);
+
+      if (!storedLogin || storedLogin.length == 0) {
+        res.json({ success: false });
+        return;
+      }
+
       if (
         bcrypt.compareSync(
-          payload.data.password,
+          routePayload.data.password,
           storedLogin[0].hashed_password,
         )
       ) {
@@ -258,16 +357,31 @@ app.post("*", (req, res) => {
       } else {
         res.json({ success: false });
       }
-      // } else {
-      //   var result = await checkItem(payload.item_type, payload.data);
-      //   res.json(result[0][0]);
-      // }
-    } catch (err) {
-      console.log("DB Error:", err);
-      res.statusMessage = err;
-      res.json({ result: "failure" });
     }
+  }),
+);
+
+// It is important that this error handling middleware is added after all the routes are defined.
+// That is why it is at the end of the file. It will catch any errors thrown in the routes
+// and send a JSON response with the error message and appropriate status code.
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    next(err);
+    return;
   }
+
+  var status = err.status || 500;
+  if (status >= 500) {
+    console.log("Server Error:", err);
+  } else {
+    console.log(
+      `Client Error ${status}: ${req.method} ${req.url} - ${err.message}`,
+    );
+  }
+
+  res.status(status).json({
+    error: err.message || "Internal server error",
+  });
 });
 
 server.listen(port, () => {
@@ -280,10 +394,10 @@ function parseRoute(url) {
     url = url.split("?")[0];
   }
   var exp = RegExp("\\w+(?=/*)", "g");
-  // @ts-ignore
-  var operationType = exp.exec(url)[0];
+  var operationMatch = exp.exec(url);
   exp = RegExp("(?<=/.+/).+", "g");
-  // @ts-ignore
-  var itemType = exp.exec(url)[0];
+  var itemMatch = exp.exec(url);
+  var operationType = operationMatch ? operationMatch[0] : null;
+  var itemType = itemMatch ? itemMatch[0] : null;
   return { operationType: operationType, itemType: itemType };
 }
