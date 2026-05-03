@@ -66,7 +66,7 @@ export async function updateItem(itemType, data, sendWebPush) {
       data.item_type = itemType;
       sendWebPushes(data);
     }
-    return rows;
+    return rows[0];
   } catch (error) {
     var now = new Date().toLocaleString();
     appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
@@ -81,30 +81,13 @@ export async function addItem(itemType, data) {
     const [rows] = await pool
       .promise()
       .execute(dbCall, [itemType, JSON.stringify(data)]);
-    return rows;
+    return rows[0];
   } catch (error) {
     var now = new Date().toLocaleString();
     appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
     throw `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`;
   }
 }
-
-// In checkItem I am using implicit connection access
-// export async function checkItem(itemType, data) {
-//   var dbCall = checkProcedureByItemType[itemType];
-//   if (!dbCall) {
-//     throw `Unsupported check item type: ${itemType}`;
-//   }
-
-//   try {
-//     const [rows] = await pool.promise().execute(dbCall, [JSON.stringify(data)]);
-//     return rows;
-//   } catch (error) {
-//     var now = new Date().toLocaleString();
-//     appendToFile(DBErrorsPath, dbCall + "\n" + error.message + "\n");
-//     throw `See ${DBErrorsPath} on the data server for an entry dated ${now} for more details.`;
-//   }
-// }
 
 /* *** Helper Functions *** */
 
