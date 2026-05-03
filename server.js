@@ -174,12 +174,13 @@ app.get(
           case "goals":
           case "tasks":
           case "task":
-          case "subscriptions":
+          // case "subscriptions":
           case "notes":
           case "thoughts":
-          case "user_login":
+          // case "user_login":
           case "user_logins":
           case "search":
+          case "user_working_status_today":
             break;
           default:
             res.status(400).json({
@@ -221,7 +222,7 @@ app.post(
       return;
     }
 
-    var payload = {
+    var req_payload = {
       item_type: itemType,
       data: req.body,
       origin: req.headers.origin,
@@ -235,33 +236,37 @@ app.post(
 
     switch (operationType) {
       case "add":
-        if (!isObject(payload.data)) {
+        if (!isObject(req_payload.data)) {
           res.status(400).json({
             error: "Request body must be a JSON object",
           });
           return;
         }
         if (
-          payload.item_type == "user_login" &&
-          typeof payload.data.password != "string"
+          req_payload.item_type == "user_login" &&
+          typeof req_payload.data.password != "string"
         ) {
           res.status(400).json({
             error: "Missing required field: password",
           });
           return;
         }
-        await addItemRoute(payload);
+        await addItemRoute(req_payload);
         res.sendStatus(200);
         return;
       case "update":
-        if (!isObject(payload.data)) {
+        if (!isObject(req_payload.data)) {
           res.status(400).json({
             error: "Request body must be a JSON object",
           });
           return;
         }
-        await updateItemRoute(payload);
-        res.sendStatus(200);
+        // await updateItemRoute(payload);
+        // res.sendStatus(200);
+        const res_payload = await updateItemRoute(req_payload);
+        res
+          .status(200)
+          .json({ success: true, returned_result_set: res_payload });
         return;
       case "check":
         if (!isObject(req.body)) {
@@ -292,7 +297,8 @@ app.post(
     }
 
     async function updateItemRoute(routePayload) {
-      await updateItem(
+      // await updateItem(
+      return await updateItem(
         routePayload.item_type,
         routePayload.data,
         routePayload.item_type == "thought" ? false : true,
